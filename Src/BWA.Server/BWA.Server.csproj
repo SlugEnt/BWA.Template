@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>418833c3-9e81-4285-bf54-c16028c8c04a</UserSecretsId>
+	<AssemblyName>SlugEnt.BWA.Server</AssemblyName>
+
+	  <Version>0.0.1</Version>
+	  <FileVersion>0.0.1</FileVersion>
+	  <AssemblyVersion>0.0.1</AssemblyVersion>
+	  <InvariantGlobalization>false</InvariantGlobalization>
+	  <NeutralLanguage>en-US</NeutralLanguage>
+	  <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+	  <Title>SlugEnt Blazor Web Assembly Net9 Template</Title>
+	  <Authors>Scott Herrmann</Authors>
+	  <Company>SlugEnt</Company>
+	  <Product>SlugEnt.BWA.Template.BlazorSrv</Product>
+	  <Description>Blazor Server API</Description>
+	  <Copyright>2025</Copyright>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
+	  <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
+	  <RootNamespace>SlugEnt.BWA.Server</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.1" />
+    <PackageReference Include="Microsoft.Identity.Web" Version="3.6.2" />
+	<PackageReference Include="MudBlazor" Version="8.1.0" />
+	<PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
+	<PackageReference Include="SlugEnt.APIInfo" Version="1.8.0" />
+	<PackageReference Include="SlugEnt.IS.AppRun" Version="0.1.0" />
+	
+	<PackageReference Include="System.CommandLine.DragonFruit" Version="0.4.0-alpha.22272.1" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BWA.Client\BWA.Client.csproj" />
+  </ItemGroup>
+
+</Project>

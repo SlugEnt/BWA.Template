@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+	  <AssemblyName>Sheakley.ICS.Template.Blazor.Common</AssemblyName>
+	  <RootNamespace>Sheakley.ICS.Template.Blazor.Common</RootNamespace>
+	  <Version>0.0.1</Version>
+	  <FileVersion>0.0.1</FileVersion>
+	  <AssemblyVersion>0.0.1</AssemblyVersion>
+	  <InvariantGlobalization>false</InvariantGlobalization>
+	  <NeutralLanguage>en-US</NeutralLanguage>
+	  <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+
+	  
+  </PropertyGroup>
+
+</Project>
