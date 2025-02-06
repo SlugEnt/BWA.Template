@@ -4,7 +4,6 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>418833c3-9e81-4285-bf54-c16028c8c04a</UserSecretsId>
 	<AssemblyName>SlugEnt.BWA.Server</AssemblyName>
 
 	  <Version>0.0.1</Version>
@@ -22,6 +21,7 @@
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
 	  <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
 	  <RootNamespace>SlugEnt.BWA.Server</RootNamespace>
+    <UserSecretsId>3331eb34-eea7-4829-a072-0f684433433e</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -34,10 +34,10 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.1" />
     <PackageReference Include="Microsoft.Identity.Web" Version="3.6.2" />
-	<PackageReference Include="MudBlazor" Version="8.1.0" />
+	<PackageReference Include="MudBlazor" Version="8.2.0" />
 	<PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
 	<PackageReference Include="SlugEnt.APIInfo" Version="1.8.0" />
-	<PackageReference Include="SlugEnt.IS.AppRun" Version="0.1.0" />
+	<PackageReference Include="SlugEnt.IS.AppRun" Version="0.4.0" />
 	
 	<PackageReference Include="System.CommandLine.DragonFruit" Version="0.4.0-alpha.22272.1" />
 
@@ -45,6 +45,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BWA.Client\BWA.Client.csproj" />
+    <ProjectReference Include="..\Common\Common.csproj" />
+    <ProjectReference Include="..\Database\Database.csproj" />
+    <ProjectReference Include="..\Entities\Entities.csproj" />
   </ItemGroup>
 
 </Project>

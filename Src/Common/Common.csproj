@@ -4,8 +4,8 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	  <AssemblyName>Sheakley.ICS.Template.Blazor.Common</AssemblyName>
-	  <RootNamespace>Sheakley.ICS.Template.Blazor.Common</RootNamespace>
+	  <AssemblyName>SlugEnt.BWA.Common</AssemblyName>
+	  <RootNamespace>.SlugEnt.BWA.Common</RootNamespace>
 	  <Version>0.0.1</Version>
 	  <FileVersion>0.0.1</FileVersion>
 	  <AssemblyVersion>0.0.1</AssemblyVersion>
