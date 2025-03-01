@@ -1,0 +1,63 @@
+﻿@page "/calendar"
+@using MudBlazor.Extensions
+
+<PageTitle>Sample Calendar Control using MudExtensions </PageTitle>
+
+
+<MudText Typo="Typo.h3" GutterBottom="true">The Calendar is not working correctly in Edge... March 1st, 2025</MudText>
+
+<MudText Typo="Typo.h3" GutterBottom="true">Future Date</MudText>
+
+<MudItem xs="12" sm="8">
+    <MudDateWheelPicker @bind-Value="_date" DateView="_dateView" Editable="_editable" Label="Date" Clearable
+                        ShowToolbar="_showToolbar" ShowHeader="_showHeader" SubmitOnClose="_submitOnClose" Variant="Variant.Outlined" Color="_color" ColorTime="_colorTime"
+                        DateFormat="@_dateFormat" FixDay="_fixDay" FixMonth="_fixMonth" FixYear="_fixYear" FixHour="_fixHour" FixMinute="_fixMinute" FixSecond="_fixSecond"/>
+</MudItem>
+
+<MudItem xs="12" sm="8">
+    <MudRangeSlider @bind-Value="@_value" @bind-UpperValue="@_upperValue" Size="Size.Large" Variant="Variant.Filled" ValueLabel="_valueLabel" Range="_range" TickMarks="_tickmarks" Immediate="true"
+                    Min="_min" Max="_max" Step="_step" Display="_display" MinDistance="_minDistance" DisableMin="_disableMin" DisableMax="_disableMax" LabelText="@_labelText" UpperLabelText="@($"{_upperLabelText} {_upperValue}")">@_label</MudRangeSlider>
+</MudItem>
+
+
+@code {
+    DateTime? _date          = DateTime.Now;
+    string    _dateFormat    = System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat.ShortDatePattern;
+    DateView  _dateView      = DateView.Date;
+    bool      _editable      = false;
+    bool      _showToolbar   = false;
+    bool      _showHeader    = false;
+    bool      _submitOnClose = true;
+    Color     _color;
+    Color     _colorTime = Color.Inherit;
+    bool      _fixYear;
+    bool      _fixMonth;
+    bool      _fixDay;
+    bool      _fixHour;
+    bool      _fixMinute;
+    bool      _fixSecond;
+
+    // Range Slider Settings
+    private int _value       = 25;
+    private int _upperValue  = 75;
+    string      _label       = "Range";
+    bool        _valueLabel  = true;
+    bool        _display     = true;
+    bool        _range       = true;
+    bool        _tickmarks   = false;
+    bool        _disableMin  = false;
+    bool        _disableMax  = false;
+    int         _min         = 0;
+    int         _max         = 100;
+    int         _step        = 1;
+    int         _minDistance = 2;
+    string?     _labelText;
+    string?     _upperLabelText;
+
+
+    void ClearValues()
+    {
+        _value      = 0;
+        _upperValue = 50;
+    }
+}
