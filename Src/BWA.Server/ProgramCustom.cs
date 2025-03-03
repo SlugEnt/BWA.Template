@@ -5,6 +5,7 @@ using SlugEnt.BWA.Client.Weather;
 using SlugEnt.BWA.Database;
 using SlugEnt.IS.AppRun;
 using MudBlazor.Services;
+using MudExtensions.Services;
 
 namespace SlugEnt.BWA.Server;
 
@@ -49,7 +50,8 @@ public class ProgramCustom : ProgramCustomBase
     public override void AddServices(WebApplicationBuilder builder)
     {
         base.AddServices(builder);
-        builder.Services.AddMudServices();
+        builder.Services.AddMudExtensions();
+
         builder.Services.AddScoped<IWeatherForecaster, ServerWeatherForecaster>();
 
     }
