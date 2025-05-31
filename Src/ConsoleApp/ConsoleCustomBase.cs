@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using SlugEnt.IS.AppRun;
 
 namespace ConsoleApp;
@@ -33,5 +34,12 @@ public abstract class ConsoleCustomBase
     /// <param name="builder"></param>
     public virtual void AddServices(IServiceCollection services) { }
 
+
+
+    /// <summary>
+    /// This method is called after the host has started.  This is a good place to put any code that needs to run immediately
+    /// after startup.  This is not the same as the Main method.  This is called after the host has started and all services have been registered.
+    /// </summary>
+    public virtual void AfterStarting(IHost host) { }
 }
 

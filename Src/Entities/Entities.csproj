@@ -6,9 +6,15 @@
     <Nullable>enable</Nullable>
     <AssemblyName>SlugEnt.BWA.Entities</AssemblyName>
     <RootNamespace>SlugEnt.BWA.Entities</RootNamespace>
+	  <InvariantGlobalization>false</InvariantGlobalization>
+	  <NeutralLanguage>en-US</NeutralLanguage>
+	  <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+	  <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.1" />
+		<PackageReference Include="ByteAether.Ulid" Version="1.1.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.5" />
+		<PackageReference Include="SlugEnt.FluentResults" Version="3.18.0.3" />
 	</ItemGroup>
 </Project>

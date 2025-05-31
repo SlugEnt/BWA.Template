@@ -1,13 +1,12 @@
-﻿namespace SlugEnt.BWA.Entities
+﻿namespace SlugEnt.BWA.Entities;
+
+/// <summary>
+///     Interface describing an object that has an IsActive property
+/// </summary>
+public interface IActiveModel
 {
     /// <summary>
-    ///     Interface describing an object that has an IsActive property
+    ///     True if the object is currently active, false if not.
     /// </summary>
-    public interface IActiveModel
-    {
-        /// <summary>
-        ///     True if the object is currently active, false if not.
-        /// </summary>
-        public bool IsActive { get; set; }
-    }
+    public bool IsActive { get; set; }
 }

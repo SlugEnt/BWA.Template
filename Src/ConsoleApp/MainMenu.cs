@@ -1,13 +1,28 @@
-﻿using SlugEnt.BWA.Database;
+﻿using Bogus;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using SlugEnt.BWA.Common;
+using SlugEnt.BWA.Database;
+using SlugEnt.FluentResults;
 using SlugEnt.IS.AppRun;
 
 namespace ConsoleApp;
 
 public partial class MainMenu
 {
-    private readonly AppDbContext Db;
+    private readonly AppDbContext      Db;
+    private readonly IServiceProvider  _serviceProvider;
+    private readonly ILogger<MainMenu> _logger;
+    private          Faker             Faker = new Faker();
 
-    public MainMenu(AppDbContext appDb) { Db = appDb; }
+    public MainMenu(AppDbContext appDb, ILogger<MainMenu> logger,
+                                                         IServiceProvider serviceProvider)
+    {
+        Db               = appDb;
+        _serviceProvider = serviceProvider;
+        _logger          = logger;
+    }
+
 
 
     public AppRuntime AppRuntime { get; set; }
@@ -21,6 +36,18 @@ public partial class MainMenu
     {
         AppRuntime = appRuntime;
         AppRuntime.Logger!.Information("Main Menu Initialized");
+
+
+        StartupEngine startupEngine = _serviceProvider.GetRequiredService<StartupEngine>();
+        Result        result        = startupEngine.Initialize();
+        if (!result.IsSuccess)
+        {
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("Error Encountered during StartupEngine Initialization.  This is  critical service and the app will likely not work correctly.   Error: " + result.ToStringWithLineFeeds());
+            Console.WriteLine();
+        }
+
     }
 
 

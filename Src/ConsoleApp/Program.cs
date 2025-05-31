@@ -83,13 +83,17 @@ public class Program
                                    .Build();
 
             // B. Run the Main App. Do NOT AWAIT call
-            host.RunAsync();
+            host.StartAsync();
+
+            // Do any post start up logic
+            _consoleCustom.AfterStarting(host);
 
             // Call Main Menu and await return
             MainMenu mainMenu = host.Services.GetRequiredService<MainMenu>();
             mainMenu.Initialize(_appRun);
             await mainMenu.Start();
 
+            host.WaitForShutdownAsync();
             return 0;
         }
         catch (Exception ex)

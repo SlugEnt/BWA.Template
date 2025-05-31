@@ -1,0 +1,36 @@
+﻿@page "/admin"
+
+<PageTitle>New Employee</PageTitle>
+
+@if (!_initializationCompleted)
+{
+    <h2> One Moment... Loading Data</h2>
+}
+else
+{
+    <MudPaper Class="pa-3 mb-3" Elevation="6"></MudPaper>
+}
+
+@code {
+    bool _initializationCompleted = false;
+
+
+
+    /// <summary>
+    /// Initial loading code
+    /// </summary>
+    /// <returns></returns>
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+
+        // Only load DB data when Interactive.
+        if (!RendererInfo.IsInteractive)
+            return;
+
+        _initializationCompleted = true;
+    }
+
+
+}

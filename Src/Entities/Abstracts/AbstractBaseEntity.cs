@@ -3,7 +3,7 @@
 namespace SlugEnt.BWA.Entities;
 
 /// <summary>
-///     The base for all HRProject Entities that helps to determine a few basics about each entity.
+///     Defines a base class that represents an Entity
 /// </summary>
 public class AbstractBaseEntity
 {
@@ -12,4 +12,11 @@ public class AbstractBaseEntity
     /// </summary>
     [NotMapped]
     public bool IsAuditable { get; protected set; }
-};
+
+    /// <summary>
+    ///     True if the object is currently active, false if not.
+    /// </summary>
+    [Column(Order = 30)]
+    public bool IsActive { get; set; }
+
+}

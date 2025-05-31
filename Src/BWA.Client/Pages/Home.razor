@@ -1,17 +1,136 @@
 ﻿@page "/"
 
+@using Microsoft.AspNetCore.Authorization
+@attribute [AllowAnonymous]  
+@using global::BWA.Client.Classes
+@using SlugEnt.BWA.Entities.Models
+@using SlugEnt.BWA.BusinessComponents.Abstracts
+
+
+
 <PageTitle>Home</PageTitle>
 
+<TestA Name="@user.FirstName" 
+       User="@user"
+       AgeUpdated="AgeChanged"></TestA>
 
+<p>AgeChanged:  @ageChanged</p>
+
+
+<MyAppBar></MyAppBar>
+
+
+<h3 class="text-muted"> This page: Rendered At: @(OperatingSystem.IsBrowser() ? "Wasm" : "Server")</h3>
 <MudText Typo="Typo.h3" GutterBottom="true">Hello, SlugEnt Template User!!</MudText>
 <MudText Class="mb-8">Welcome to your new app, powered by MudBlazor and the .NET 9 Template, customized for SlugEnt!</MudText>
 
 <MudAlert Severity="Severity.Normal">
-    You can find documentation and examples on our website here:
-    <MudLink Href="https://mudblazor.com" Target="_blank" Typo="Typo.body2" Color="Color.Primary">
-        <b>www.mudblazor.com</b>
+    This application is making use of several components.  You can find the documentation for these here:
+    
+    <!--  Mud Blazor -->
+    <h3>
+        <MudLink Href="https://mudblazor.com" Target="_blank" Typo="Typo.body2" Color="Color.Primary">
+            <b>MudBlazor</b>
+        </MudLink>
+    </h3>
+    <MudText Type="Typo.body2">
+        This is the primary widget control for the GUI part of the application
+    </MudText>
+    <br />
+    
+
+    <!--  Mud Extensions -->
+    <h3>
+        <MudLink Href="https://codebeam-mudextensions.pages.dev" Target="_blank" Typo="Typo.body2" Color="Color.Primary">
+            <b>MudBlazor Extensions</b>
+        </MudLink>
+    </h3>
+    <MudText Type="Typo.body2">
+        Provides more advanced Widgets as well as extending some of the existing
+    </MudText>
+    <br/>
+
+
+    <!--  MudEx -->
+    <h3>
+        <MudLink Href="https://www.mudex.org" Target="_blank" Typo="Typo.body2" Color="Color.Primary">
+            <b>Mud Extensions</b>
+        </MudLink>
+    </h3>
+    <MudText Type="Typo.body2">
+        Extends the Mud Widgets even further.
+    </MudText>
+    <br/>
+
+
+    <!--  MudTheme - Default (not the one being used in this app -->
+    <h3>
+        <MudLink Href="https://mudblazor.com/customization/default-theme#palette" Target="_blank" Typo="Typo.body2" Color="Color.Primary">
+            <b>Mud Theme Basic EndpointInfo</b>
+        </MudLink>
+    </h3>
+    <MudText Type="Typo.body2">
+        Provides Theme wide CSS variable names and every CSS variable defined by the default theme.
+        Additional EndpointInfo:
+    </MudText>
+    <MudLink Href="https://crispycode.net/exploring-the-mudthemeprovider-in-mudblazor/" Target="_blank" Typo="Typo.body2" Color="Color.Primary">
+        <b>Mud Theme detailed info</b>
     </MudLink>
+
+
+    <br/>
 </MudAlert>
+<br/>
+
+
+
+<MudText Typo="Typo.h3" GutterBottom="true">Endpoints for this Project</MudText>
+<br/>
+<MudText Typo="Typo.body2">
+    This project provides several standard endpoints that help you while developing the application.
+    <br/>
+
+    <MudLink Href="@AppInfo.EndpointApi" Target="_blank" Typo="Typo.body2" Color="Color.Primary">
+        <b>Base API Endpoint of the Application (Note this is not a valid Link.  It only shows you the root for all Controllers</b>
+    </MudLink>
+    <br />
+
+    <MudLink Href="@AppInfo.EndpointOpenApi" Target="_blank" Typo="Typo.body2" Color="Color.Primary">
+        <b>Base Url of the Application</b>
+    </MudLink>
+    <br />
+
+    <MudLink Href="@AppInfo.EndpointScalar" Target="_blank" Typo="Typo.body2" Color="Color.Primary">
+        <b>EndpointScalar Open API Interactive</b>
+    </MudLink>
+    <br />
+
+    <MudLink Href="@AppInfo.EndpointPing" Target="_blank" Typo="Typo.body2" Color="Color.Primary">
+        <b>Application EndpointPing Tester</b>
+    </MudLink>
+    <br/>
+
+    <MudLink Href="@AppInfo.EndpointInfo" Target="_blank" Typo="Typo.body2" Color="Color.Primary">
+        <b>Basic EndpointInformation about the API</b>
+    </MudLink>
+    <br/>
+
+    <MudLink Href="@AppInfo.EndpointHealth" Target="_blank" Typo="Typo.body2" Color="Color.Primary">
+        <b>Basic EndpointHealth Check information</b>
+    </MudLink>
+    <br/>
+
+    <MudLink Href="@AppInfo.EndpointSimple" Target="_blank" Typo="Typo.body2" Color="Color.Primary">
+        <b>Basic Simple Info endpoint</b>
+    </MudLink>
+    <br/>
+
+    <MudLink Href="@AppInfo.EndpointConfig" Target="_blank" Typo="Typo.body2" Color="Color.Primary">
+        <b>Basic Configuration info</b>
+    </MudLink>
+    <br />
+</MudText>
+
 
 <br />
 <MudText Typo="Typo.h5" GutterBottom="true">Interactivity in this Template</MudText>
@@ -58,3 +177,35 @@
         More details
     </MudLink>
 </MudText>
+
+
+
+@code
+{
+
+    [Inject]
+    private IAppInfo AppInfo { get; set; } = default!;
+
+
+    private User user = new User()
+    {
+        FirstName     = "Michael",
+        LastName      = "Doe",
+        Email         = "t@j.com",
+        PhoneExternal = "44444444",
+    };
+
+    
+    bool ageChanged = false;
+    public void AgeChanged(bool isChanged)
+    {
+        ageChanged = isChanged;
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+
+
+        
+    }
+}
