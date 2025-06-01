@@ -9,6 +9,8 @@
 	  <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
 
 	  <GenerateDocumentationFile>True</GenerateDocumentationFile>
+
+	  <Version>1.0.0.1</Version>
   </PropertyGroup>
 
 </Project>

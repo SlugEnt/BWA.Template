@@ -11,6 +11,8 @@
     <RootNamespace>SlugEnt.BWA.Client</RootNamespace>
 	  
 	  <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+	  
+	  <Version>1.0.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

@@ -6,9 +6,9 @@
     <Nullable>enable</Nullable>
 	  <AssemblyName>SlugEnt.BWA.Common</AssemblyName>
 	  <RootNamespace>SlugEnt.BWA.Common</RootNamespace>
-	  <Version>0.0.1</Version>
-	  <FileVersion>0.0.1</FileVersion>
-	  <AssemblyVersion>0.0.1</AssemblyVersion>
+	  <Version>1.0.0.1</Version>
+	  <FileVersion>1.0.0.1</FileVersion>
+	  <AssemblyVersion>1.0.0.1</AssemblyVersion>
 	  <InvariantGlobalization>false</InvariantGlobalization>
 	  <NeutralLanguage>en-US</NeutralLanguage>
 	  <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>

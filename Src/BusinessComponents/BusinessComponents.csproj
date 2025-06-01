@@ -8,6 +8,7 @@
 		<AssemblyName>SlugEnt.BWA.$(MSBuildProjectName)</AssemblyName>
 		<RootNamespace>SlugEnt.BWA.BusinessComponents</RootNamespace>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<Version>1.0.0.1</Version>
 	</PropertyGroup>
 
 
