@@ -1,0 +1,51 @@
+﻿@using SlugEnt.HR.NextGen.Entities.Models
+@using BWA.BusinessComponents.Abstracts
+@using SlugEnt.BWA.BusinessComponents.Abstracts
+
+@typeparam TEnum
+
+
+
+
+<!--  Required to Enable Tool Tip Content to render correctly.   Otherwise size is like 2 characters wide. -->
+<style>
+    .tooltip-fixed {
+        width: 100%;
+    }
+</style>
+
+@if (!_isReady)
+{
+    <p>Loading Subdivisions</p>
+}
+else
+{
+    <p>Loading...</p>
+    <MudItem xs="12" sm="8">
+        <MudTooltip RootClass="tooltip-fixed">
+            <ChildContent>
+                <MudSelectExtended T="EnumItem"
+                                   Label="@_labelText"
+                                   ItemCollection="_enumList"
+                                   ValueChanged="EnumSelectChanged"
+                                   ValuePresenter="@ValuePresenter"
+                                   Variant="Variant.Outlined"
+                                   AdornmentIcon="@Icons.Material.Filled.Search"
+                                   
+                                   ToStringFunc="@(x=>x.Name)">
+                    @foreach (EnumItem item in  _enumList)
+                    {
+                        <MudSelectItemExtended Value="item"/>
+                    }
+                </MudSelectExtended>
+            </ChildContent>
+            <TooltipContent>
+                <MudText>Render Interactivty: @RendererInfo.IsInteractive</MudText>
+                <MudText>Render Location: @RendererInfo.Name</MudText>
+                <MudText>Render Assigned Mode: @AssignedRenderMode!.ToString()</MudText>
+            </TooltipContent>
+        </MudTooltip>
+    </MudItem>
+    
+}
+

@@ -1,0 +1,172 @@
+﻿@using SlugEnt.BWA.BusinessComponents.Abstracts.ErrorManagement
+@using SlugEnt.FluentResults
+
+
+
+<MudCard Style="background-color:darkred">
+    <MudCardContent>
+        <!--  Message  -->
+        @if (@AppError.ErrorType == EnumErrorType.Message)
+        {
+            <MudText Style="color:white" Typo="Typo.body2">@AppError.Text</MudText>
+        }
+
+        // Exception
+        else if (@AppError.ErrorType == EnumErrorType.Exception)
+        {
+            <MudText Style="color:white" Typo="Typo.body2">@AppError.Text</MudText>
+            <MudText Style="color:white" Typo="Typo.body2">@AppError.Exception.ToString()</MudText>
+        }
+
+        // HTTPError Type
+        else if (@AppError.ErrorType == EnumErrorType.Http)
+        {
+            <MudText Style="color:white" Typo="Typo.body2">@AppError.Text</MudText>
+            @DataRowHeader("Error Details")
+            @MetaDataRow("Called API", @AppError.HttpResponseError.CalledApi)
+            @MetaDataRow("Method Dectected In", @AppError.HttpResponseError.CallingMethod)
+            @MetaDataRow("Service Class", @AppError.HttpResponseError.ServiceClassName)
+            @if (@AppError.HttpResponseError.ProblemDetailsCustom != null)
+            {
+                @MetaDataRow("Request Id", @AppError.HttpResponseError.ProblemDetailsCustom.RequestId)
+                @MetaDataRow("Detailed Info", @AppError.HttpResponseError.ProblemDetailsCustom.Detail)
+                @MetaDataRow("Category", @AppError.HttpResponseError.ProblemDetailsCustom.Category)
+                @MetaDataRow("TraceId", @AppError.HttpResponseError.ProblemDetailsCustom.TraceId)
+                @MetaDataRow("Request Method", @AppError.HttpResponseError.ProblemDetailsCustom.RequestMethod)
+                @MetaDataRow("Type", @AppError.HttpResponseError.ProblemDetailsCustom.Type)
+                @MetaDataRow("Status Code", @AppError.HttpResponseError.ProblemDetailsCustom.StatusCode.ToString())
+                @if (@AppError.HttpResponseError.ProblemDetailsCustom.Reasons != null)
+                {
+                    foreach (string reason in @AppError.HttpResponseError.ProblemDetailsCustom.Reasons)
+                    {
+                        @MetaDataRow("Reason", @reason)
+                    }
+                }
+            }
+        }
+
+        // Result
+        else if (@AppError.ErrorType == EnumErrorType.Result)
+        {
+            <div class="d-flex flex-grow-1 gap-4"></div>
+
+            foreach (IError err in @AppError.Result.Errors)
+            {
+                <MudGrid>
+                    <MudItem>
+                        <MudPaper width="40px"> </MudPaper>
+                    </MudItem>
+                    <MudItem>
+                        <MudPaper width="500px">
+                            <MudText
+                            Typo="Typo.body2">
+                                Error Msg: {@err.Message}
+                            </MudText>
+                        </MudPaper>
+                    </MudItem>
+                </MudGrid>
+
+                if (err.Metadata.Count > 0)
+                {
+                    @DataRowHeader("Error Detail Values")
+
+                    foreach (KeyValuePair<string, object> kv in err.Metadata)
+                    {
+                        @MetaDataRow(@kv.Key, @kv.Value.ToString())
+                    }
+
+                    <MudSpacer/>
+                }
+
+                if (err.Reasons.Count > 0)
+                {
+                    <MudGrid>
+                        <MudItem>
+                            <MudPaper width="80px"></MudPaper>
+                        </MudItem>
+                        <MudItem>
+                            <MudPaper Width="120px">
+                                <MudText Style="font-weight: bold" Typo="Typo.body2">Reasons for Error: </MudText>
+                            </MudPaper>
+                        </MudItem>
+                    </MudGrid>
+
+                    foreach (IError reason in err.Reasons)
+                    {
+                        <MudText Typo="Typo.body2">
+                            <MudGrid>
+                                <MudItem>
+                                    <MudPaper width="120px"> </MudPaper>
+                                </MudItem>
+                                <MudItem Style="font-weight: bold"><MudPaper Width="200px"></MudPaper>Application Error</MudItem>
+                                <MudItem>
+                                    <MudPaper Width="700px"></MudPaper>@reason.Message
+                                </MudItem>
+                            </MudGrid>
+                        </MudText>
+                    }
+
+                    <MudSpacer/>
+                }
+            }
+        }
+
+    </MudCardContent>
+</MudCard>
+
+@code
+{
+    private RenderFragment MetaDataRow(string x,
+                                     string y,
+                                     bool shouldDisplayIfEmpty = false,
+                                     bool isColumnHeaderRow = false)
+    {
+        if (!shouldDisplayIfEmpty)
+            if (string.IsNullOrEmpty(y))
+                return null;
+
+        string style = "font-weight:normal; color:white";
+        if (isColumnHeaderRow)
+            style = "text-decoration:underline; color:white; font-weight: bold; font-size:1.5em;"; 
+
+        RenderFragment a = @<MudGrid>
+                               <MudItem>
+                                   <MudPaper width="120px"/>
+                               </MudItem>
+                               <MudItem>
+                                   <MudPaper width="180px"/>
+                               </MudItem>
+
+                               <MudItem Style=@style>
+                                   <MudPaper Width="200px"></MudPaper>@x
+                               </MudItem>
+                               <MudItem  Style=@style>
+                                   <MudPaper Width="700px"></MudPaper>@y
+                               </MudItem>
+                           </MudGrid>;
+        return a;
+    }
+
+
+    private RenderFragment DataRowHeader(string headerTitle)
+    {
+        RenderFragment header = @<MudGrid >
+                                    <MudItem >
+                                        <MudPaper width="80px"></MudPaper >
+                                    </MudItem >
+                                    <MudItem >
+                                        <MudPaper Width="350px">
+                                            <MudText Style="font-weight: bold" Typo="Typo.h5"> @headerTitle </MudText >
+                                        </MudPaper >
+                                    </MudItem >
+                                    <MudItem Style="color:white" xs="12"> @MetaDataRow("Item Name",
+                                                                   "Current Value",
+                                                                   true,
+                                                                   true)
+
+                                    </MudItem>
+                                </MudGrid>
+    ;
+        return header;
+    }
+}

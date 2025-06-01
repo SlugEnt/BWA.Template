@@ -2,7 +2,28 @@
 
 This template serves as a starting point for building a .Net compatible Blazor Web Assembly app with Auto Rendering.
 
-It has Authentication and Authorization built in out of the box.
+It has a number of key things to get you jump started into just building your app:
+* Authentication and Authorization are built in out of the box using Microsoft MSAL
+* Heavy use of Generica to reduce the amount of code you need to write.
+* Uses Microsoft OData to provide query parameters for the data models.  Note, it does not fully provide an OData interface, but that is rarely needed and prevents you from 
+* being able to build outside of the pure Rest model.  I take the best of OData and leave the rest out.
+* It has a complete database Entity model that works throughout the entire app to build a modern app that means just a few lines of code for an entity will provide:
+    * An entity with auditing entries (Created/Modified) by Id and DateTimeUTC.  
+    * Name Property for the entity that is used in the UI.
+    * IsActive flags for deactiving entities if deletion is not wanted
+    * A Can Delete property that allows the entity to tell components whether it can be permanently deleted or not*
+    * It has built in base entity classes that provide Id types for Int, Long, String, Guid and ULID!
+    * Database Repositories that support each of the above entity types and provide the normal CRUD operations with full logging built in
+    * Controllers that provide the typical CRUD operations for each of the Entity Types
+    * Blazor components that provide Service objects for working with the entities in Blazor
+    * Sample Drop down controls for the Entity types that make it easy to standup these entities in related entities
+    * Full unit tests of the entities, the repositories and the controllers
+* Has an imnproved database transaction model that allows multiple entities or repositories to use transactions without complicated logic to determine if already in one or not.*
+
+With the above, you can create a basic new entity in less than 5 minutes that provides a Repository, Controller, Service, Unit tests for each, and copy paste a sample blazor component and unit test that  you can immediately begin working with!
+
+All of the repository, controller and services are built such that you can override any of their methods for a given entity if you need to do something different than the base implementation.  
+
 
 It has a Database Project and an Entities project which you may or may not need depending on your requirements.  If you do not need a database
 then just remove these projects and remove the code in the ProgramCustom that references them.

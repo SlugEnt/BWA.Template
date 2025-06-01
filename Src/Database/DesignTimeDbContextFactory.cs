@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Global;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
@@ -9,17 +10,13 @@ namespace SlugEnt.BWA.Database
         public AppDbContext CreateDbContext(string[] args)
         {
             // Get Sensitive Appsettings.json file location
-            string? sensitiveAppSettings = Environment.GetEnvironmentVariable("AppSettingSensitiveFolder");
-
-            // Load the Sensitive AppSettings.JSON file.
-            string sensitiveFileName    = "BWA.Template_AppSettingsSensitive.json";
-            string sensitiveSettingFile = Path.Join(sensitiveAppSettings, sensitiveFileName);
+            string? sensitiveAppSettings = ApplicationGlobals.GetSensitiveAppSettingFullPath();
 
             // Add our custom AppSettings.JSON files
-            IConfigurationRoot configuration = new ConfigurationBuilder().AddJsonFile(sensitiveSettingFile, true, true).Build();
+            IConfigurationRoot configuration = new ConfigurationBuilder().AddJsonFile(sensitiveAppSettings, true, true).Build();
 
-            Console.WriteLine("AppDbContext Design Time Tools:  Sensitive File: " + sensitiveSettingFile);
-            if (!File.Exists(sensitiveSettingFile))
+            Console.WriteLine("AppDbContext Design Time Tools:  Sensitive File: " + sensitiveAppSettings);
+            if (!File.Exists(sensitiveAppSettings))
             {
                 throw new ApplicationException("Sensitive Setting File does not exist.");
             }

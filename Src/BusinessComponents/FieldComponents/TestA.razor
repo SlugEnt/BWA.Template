@@ -1,0 +1,27 @@
+﻿@using SlugEnt.BWA.Entities.Models
+
+<h3>TestA</h3>
+
+<MudText>User Name is: @Name</MudText>
+<MudTextField T="int"  Label="Age" Value =@Age ValueChanged="AgeChanged"  ></MudTextField>
+
+@code {
+
+    [Parameter]
+    public string? Name { get; set; }
+
+    [Parameter] 
+    public User? User { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> AgeUpdated { get; set; }
+
+    private int Age = 34;
+
+
+    private async Task AgeChanged(int e)
+    {
+        Age = e;
+        await AgeUpdated.InvokeAsync(true);
+    }
+}

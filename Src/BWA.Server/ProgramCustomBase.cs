@@ -8,7 +8,8 @@ namespace SlugEnt.BWA.Server;
 public abstract class ProgramCustomBase
 {
     /// <summary>
-    /// App Runtime object - contains things like the Configuration, Logger, etc.
+    /// <summary>
+    /// App Runtime object 
     /// </summary>
     protected readonly AppRuntime _appRuntime;
 
@@ -44,7 +45,7 @@ public abstract class ProgramCustomBase
     /// Allows application to add to the Build App process.  This is called near the end of the BuildApp process
     /// </summary>
     /// <param name="app"></param>
-    public virtual void BuildApp_UsesEnd(WebApplication app) { }
+    public virtual void BuildApp_UsesMiddle(WebApplication app) { }
 
 
     /// <summary>

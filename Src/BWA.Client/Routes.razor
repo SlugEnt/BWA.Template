@@ -1,6 +1,10 @@
-<Router AppAssembly="typeof(Program).Assembly" AdditionalAssemblies="new[] {typeof(SlugEnt.BWA.Client._Imports).Assembly }">
+@using SlugEnt.BWA.Client.Layout
+
+<Router AppAssembly="typeof(Program).Assembly" 
+        AdditionalAssemblies="new[] {typeof(_Imports).Assembly,
+        typeof(TestA).Assembly}">
     <Found Context="routeData">
-        <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(SlugEnt.BWA.Client.Layout.MainLayout)">
+        <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(InitialLayout)">
             <NotAuthorized>
                 <RedirectToLogin />
             </NotAuthorized>

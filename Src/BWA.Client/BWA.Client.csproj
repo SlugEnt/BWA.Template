@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -6,15 +6,32 @@
     <Nullable>enable</Nullable>
     <NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
     <StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>
+	  <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
     <AssemblyName>SlugEnt.BWA.Client</AssemblyName>
     <RootNamespace>SlugEnt.BWA.Client</RootNamespace>
+	  
+	  <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+	  
+	  <Version>1.0.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="9.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.1" />
-	<PackageReference Include="MudBlazor" Version="8.1.0" />
+	  <PackageReference Include="CodeBeam.MudBlazor.Extensions" Version="8.2.1" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.5" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="9.0.5" />
+	  <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.5" />
+	  <PackageReference Include="MudBlazor" Version="8.6.0" />
+	  <PackageReference Include="MudBlazor.Extensions" Version="8.6.1" />
   </ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\BusinessComponents\BusinessComponents.csproj" />
+		<ProjectReference Include="..\Entities\Entities.csproj" />
+		<ProjectReference Include="..\Global\Global.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Pages\CustomComponents\" />
+	</ItemGroup>
 
 </Project>

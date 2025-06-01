@@ -1,0 +1,53 @@
+﻿@using Microsoft.AspNetCore.Components.Web
+@using SlugEnt.FluentResults
+@using BWA.BusinessComponents.Abstracts.ErrorManagement
+@using AppError = BWA.BusinessComponents.Abstracts.ErrorManagement.AppError
+@rendermode InteractiveAuto
+
+
+<MudAppBar>
+
+    <!-- <MudIconButton Icon="@Icons.Material.Filled.Menu" Size="Size.Large" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())"/>
+         -->
+    @*<MudSpacer/>*@
+
+
+    <MudText Typo="Typo.h5">Hr Next Gen 2025</MudText>
+    <MudSpacer />
+    <MudSpacer />
+
+    <MudText>@time</MudText>
+    <MudSpacer />
+    @if (_ErrorStateHasChanged)
+    {
+        <MudToggleIconButton Icon="@Icons.Material.Outlined.Error" Style="color:#7E05FA" Size="Size.Large"
+                             Toggled="_showErrorPopup" ToggledChanged="OnErrorWindowToggle" />
+    }
+    else
+    {
+        <MudIcon Icon="@Icons.Material.Outlined.CheckCircle" Color="Color.Success" />
+    }
+    <MudIcon Icon="@Icons.Material.Outlined.Person" Size="Size.Large">WSH</MudIcon>
+
+
+    <MudPopover Open="@_showErrorPopup" RelativeWidth="DropdownWidth.Relative" MaxHeight="1000" AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopCenter">
+        <MudCard>
+            <MudCardContent>
+                <MudDataGrid Items="@_errorList">
+                    <Columns>
+                        <HierarchyColumn T="AppError" />
+                        <PropertyColumn Property="x => x.Text" Title="Error Message" Width="500px"></PropertyColumn>
+                        <PropertyColumn Property="x => x.CreatedAt" Title="Date Occurred" Width="120px"></PropertyColumn>
+                        <PropertyColumn Property="x => x.ErrorType" Title="Type of Error" Width="120px"></PropertyColumn>
+
+                    </Columns>
+                    <ChildRowContent>
+                        <AppErrorDisplay AppError="@context.Item" />
+                    </ChildRowContent>
+                </MudDataGrid>
+
+            </MudCardContent>
+
+        </MudCard>
+    </MudPopover>
+</MudAppBar>

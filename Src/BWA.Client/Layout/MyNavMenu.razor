@@ -1,0 +1,22 @@
+﻿<MudNavMenu>
+    <MudNavLink Href="/" Match="NavLinkMatch.All">Dashboard</MudNavLink>
+    <MudNavLink Href="/counter" Match="NavLinkMatch.Prefix">Counter</MudNavLink>
+    <MudNavLink Href="/weather" Match="NavLinkMatch.Prefix">Weather</MudNavLink>
+    <MudNavLink Href="/calendar" Match="NavLinkMatch.Prefix">Sample Calendar (MudExt)</MudNavLink>
+
+    
+    <AuthorizeView>
+        <MudNavGroup Title="Settings" Expanded="true">
+            <MudNavLink Href="/user-claims" Match="NavLinkMatch.Prefix">User Claims</MudNavLink>
+            <MudNavLink Href="/users" Match="NavLinkMatch.Prefix">Users</MudNavLink>
+            <MudNavLink Href="/security" Match="NavLinkMatch.Prefix">Security</MudNavLink>
+        </MudNavGroup>
+    </AuthorizeView>
+
+    <MudNavLink Href="/about" Match="NavLinkMatch.Prefix">About</MudNavLink>
+</MudNavMenu>
+
+
+@code {
+
+}

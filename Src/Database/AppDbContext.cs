@@ -1,6 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ByteAether.Ulid;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
+using SlugEnt.BWA.Entities;
 using SlugEnt.BWA.Entities.Models;
+using SlugEnt.HR.NextGen.Entities.Models;
 
 namespace SlugEnt.BWA.Database;
 
@@ -35,19 +40,71 @@ public class AppDbContext : DbContext
     {
         Console.WriteLine("In OnModelCreating");
         base.OnModelCreating(modelBuilder);
+
+
+        //Add Auditing fields to the entities that need it!
+        AddAuditing<AppSetting>(modelBuilder);
+        AddAuditing<SampleInt>(modelBuilder);
+        AddAuditing<SampleUlid>(modelBuilder);
+        AddAuditing<SampleString>(modelBuilder);
+        AddAuditing<SampleLong>(modelBuilder);
+        AddAuditing<SampleGuid>(modelBuilder);
+
+
     }
 
 
-#region "Tables"
+    /// <summary>
+    /// Appends the LastModifiedBy / CreatedBy and the LastModifiedAt / CreatedAt fields to the entities
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="mb"></param>
+    public static void AddAuditing<T>(ModelBuilder mb) where T : AbstractAuditableEntity
+    {
+        string tableName = typeof(T).Name;
 
+        // TODO  - We no longer link to a User Id, but rather just store the User Id in the field.
+/*        mb.Entity<T>()
+          .HasOne(x => x.CreatedByUser)
+          .WithMany()
+          .HasForeignKey("CreatedById" + tableName);
+
+        mb.Entity<T>()
+          .HasOne(x => x.LastModifiedByUser)
+          .WithMany()
+          .HasForeignKey("LastModifiedById" + tableName);
+*/
+    }
+
+
+    #region "Tables"
+
+        public DbSet<AppSetting> AppSettings { get; set; }
     public DbSet<User> Users { get; set; }
 
-#endregion
+    public DbSet<SampleInt> SampleInt { get; set; }
+    public DbSet<SampleString> SampleString { get; set; }
+    public DbSet<SampleUlid> SampleUlids { get; set; }
+    public DbSet<SampleLong> SampleLongs { get; set; }
+    public DbSet<SampleGuid> SampleGuids { get; set; }
 
 
-#region "BasicStuff"
+    #endregion
 
-    public AppDbContext() { Console.WriteLine("In AppDbContext Empty Constructor"); }
+
+    #region "BasicStuff"
+
+    /// <summary>
+    /// Keeps track of transactions in the DB.
+    /// </summary>
+    public DatabaseTransactionManager DatabaseTransactionManager;
+
+
+    public AppDbContext()
+    {
+        Console.WriteLine("In AppDbContext Empty Constructor");
+        Initialize();
+    }
 
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
@@ -60,6 +117,17 @@ public class AppDbContext : DbContext
         */
 
         Console.WriteLine("In AppDb Options Constructor");
+        Initialize();
+    }
+
+
+    /// <summary>
+    /// Sets up the Database Transaction Manager
+    /// </summary>
+    private void Initialize()
+    {
+        // Initiate the transaction manager.  Nothing happens until the caller decides it wants a transaction.
+        DatabaseTransactionManager = new DatabaseTransactionManager(this);
     }
 
 
@@ -114,27 +182,47 @@ public class AppDbContext : DbContext
 
         foreach (EntityEntry entry in tracker.Entries())
         {
-            if (entry.State == EntityState.Unchanged) { }
-            /*
-            if (entry.Entity is AbstractBaseEntity)
+            if (entry.State == EntityState.Unchanged)
+                continue;
+            
+
+            if (entry.Entity is AbstractAuditableEntity)
             {
-                IBaseEntity baseEntity = (IBaseEntity)entry.Entity;
+                AbstractAuditableEntity auditableEntity = (AbstractAuditableEntity)entry.Entity;
 
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        baseEntity.CreatedUTC = DateTime.UtcNow;
+                        auditableEntity.CreatedAt = DateTime.UtcNow;
                         break;
                     case EntityState.Deleted:
                     case EntityState.Modified:
-                        baseEntity.ModifiedUTC = DateTime.UtcNow;
+                        auditableEntity.LastModifiedAt = DateTime.UtcNow;
                         break;
                 }
             }
-            */
+
         }
     }
 
+
+
+
+    /// <summary>
+    /// Enable the SQL Server Attribute for Default Values
+    /// </summary>
+    /// <param name="configurationBuilder"></param>
+    protected override void ConfigureConventions(
+        ModelConfigurationBuilder configurationBuilder)
+    {
+        configurationBuilder.Conventions.Add(services =>
+                                                 new SqlDefaultValueConvention(
+                                                                               services.GetRequiredService<ProviderConventionSetBuilderDependencies>()));
+
+        // Required for the Ulid to work with the model properties correctly.
+        configurationBuilder.Properties<Ulid>()
+                            .HaveConversion<UlidToBytesConverter>();
+    }
 
 
     /// <summary>

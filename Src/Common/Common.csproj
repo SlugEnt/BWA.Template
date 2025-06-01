@@ -5,15 +5,28 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	  <AssemblyName>SlugEnt.BWA.Common</AssemblyName>
-	  <RootNamespace>.SlugEnt.BWA.Common</RootNamespace>
-	  <Version>0.0.1</Version>
-	  <FileVersion>0.0.1</FileVersion>
-	  <AssemblyVersion>0.0.1</AssemblyVersion>
+	  <RootNamespace>SlugEnt.BWA.Common</RootNamespace>
+	  <Version>1.0.0.1</Version>
+	  <FileVersion>1.0.0.1</FileVersion>
+	  <AssemblyVersion>1.0.0.1</AssemblyVersion>
 	  <InvariantGlobalization>false</InvariantGlobalization>
 	  <NeutralLanguage>en-US</NeutralLanguage>
 	  <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
-
-	  
+	  <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
+
+
+	<ItemGroup>
+		<PackageReference Include="Bogus" Version="35.6.3" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.5" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.5" />
+		<PackageReference Include="Serilog.Sinks.Seq" Version="9.0.0" />
+		<PackageReference Include="SlugEnt.FluentResults" Version="3.18.0.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Database\Database.csproj" />
+		<ProjectReference Include="..\Entities\Entities.csproj" />
+	</ItemGroup>
 
 </Project>

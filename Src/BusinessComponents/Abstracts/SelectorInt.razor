@@ -1,0 +1,64 @@
+﻿@using SlugEnt.BWA.BusinessComponents.Abstracts
+@typeparam TEntityInt
+
+
+
+
+<!--  Required to Enable Tool Tip Content to render correctly.   Otherwise size is like 2 characters wide. -->
+<style>
+    .tooltip-fixed {
+    width: 100%;
+    }
+</style>
+
+@if (!_isReady)
+{
+    <p>Loading Subdivisions</p>
+}
+else
+{
+    <MudItem xs="12" sm="8">
+        <MudTooltip RootClass="tooltip-fixed">
+            <ChildContent>
+                <MudSelectExtended T="TEntityInt"
+                                   Label="@Label"
+                                   Value="@_intValueObject"
+                                   ValueChanged="EntitySelectChanged"
+                                   ValuePresenter="@ValuePresenter"
+                                   Variant="Variant.Outlined"
+                                   AdornmentIcon="@Icons.Material.Filled.Search"
+                                   ToStringFunc="@(x => x.FullName)"
+                                   
+                >
+                    @foreach (TEntityInt sub in _entityList)
+                    {
+                        <MudSelectItemExtended Value="@sub"/>
+                    }
+                </MudSelectExtended>
+
+            </ChildContent>
+            <TooltipContent>
+                <MudText >Render Interactivty: @RendererInfo.IsInteractive</MudText>
+                <MudText> Render Location: @RendererInfo.Name </MudText>
+                <MudText> Render Assigned Mode: @AssignedRenderMode!.ToString() </MudText>
+            </TooltipContent>
+        </MudTooltip>
+    </MudItem>
+
+
+    <!--
+    <MudItem xs="12" sm="4">
+        <MudText Typo="Typo.caption" Color="Color.Primary">Selected: @(_intValueObject?.FullName ?? "None")</MudText>
+
+        @foreach (var item in _entityList)
+    {
+        <MudText> FullName: @item.FullName </MudText>
+        <MudText> Id:       @item.Id</MudText>
+        <MudText> ToString: @item.ToString() </MudText>
+        <MudText> GetType:  @item.GetType().Name </MudText>
+    }
+
+    </MudItem>
+    -->
+}
+
