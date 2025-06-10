@@ -1,0 +1,127 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E84D82DA43999D4AB15EFB89058024BC/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E84D82DA43999D4AB15EFB89058024BC/Description/@EntryValue">Entity Controller</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E84D82DA43999D4AB15EFB89058024BC/Text/@EntryValue">using Microsoft.AspNetCore.Mvc;&#xD;
+&#xD;
+namespace BWA.Server.Controllers.IntLookups;&#xD;
+&#xD;
+&#xD;
+/// &lt;summary&gt;&#xD;
+/// API Controller for the $ControllerName$ Lookup Entity&#xD;
+/// &lt;/summary&gt;&#xD;
+/// &lt;remarks&gt;&#xD;
+/// Constructor for the $ControllerName$Controller class.  This is where the logger, database context, and entity engine are injected&#xD;
+/// &lt;/remarks&gt;&#xD;
+/// &lt;param name="logger"&gt;&lt;/param&gt;&#xD;
+/// &lt;param name="db"&gt;&lt;/param&gt;&#xD;
+/// &lt;param name="repositoryE2Entity"&gt;&lt;/param&gt;&#xD;
+[Route("api/[controller]")]&#xD;
+[ApiController]&#xD;
+public class $ControllerName$Controller : EntityController$EntityBaseType$&lt;$Entity$&gt;, IEntityController$EntityBaseType$&lt;$Entity$&gt;&#xD;
+&#xD;
+{&#xD;
+    /// &lt;summary&gt;&#xD;
+    /// Constructor&#xD;
+    /// &lt;/summary&gt;&#xD;
+    /// &lt;param name="logger"&gt;Logger for the Controller&lt;/param&gt;&#xD;
+    /// &lt;param name="db"&gt;Database Connection&lt;/param&gt;&#xD;
+    /// &lt;param name="repositoryE2Entity"&gt;Database Engine to communicate with&lt;/param&gt;&#xD;
+    public $ControllerName$Controller(ILogger&lt;$ControllerName$Controller&gt; logger,&#xD;
+                               AppDbContext db,&#xD;
+                               IEntityRepositoryE2$EntityBaseType$&lt;$Entity$&gt; repositoryE2Entity,&#xD;
+                               IServiceProvider serviceProvider) : base(logger,&#xD;
+                                                                        db,&#xD;
+                                                                        repositoryE2Entity,&#xD;
+                                                                        serviceProvider)&#xD;
+    {&#xD;
+        ControllerName = "$ControllerName$";&#xD;
+    }&#xD;
+}</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E84D82DA43999D4AB15EFB89058024BC/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E84D82DA43999D4AB15EFB89058024BC/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E84D82DA43999D4AB15EFB89058024BC/CustomProperties/=FileName/@EntryIndexedValue">EntityController</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E84D82DA43999D4AB15EFB89058024BC/CustomProperties/=Extension/@EntryIndexedValue">cs</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E84D82DA43999D4AB15EFB89058024BC/CustomProperties/=ValidateFileName/@EntryIndexedValue">False</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E84D82DA43999D4AB15EFB89058024BC/Applicability/=File/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E84D82DA43999D4AB15EFB89058024BC/Scope/=E8F0594528C33E45BBFEC6CFE851095D/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E84D82DA43999D4AB15EFB89058024BC/Scope/=E8F0594528C33E45BBFEC6CFE851095D/Type/@EntryValue">InCSharpProjectFile</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E84D82DA43999D4AB15EFB89058024BC/Field/=ControllerName/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E84D82DA43999D4AB15EFB89058024BC/Field/=ControllerName/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E84D82DA43999D4AB15EFB89058024BC/Field/=Entity/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E84D82DA43999D4AB15EFB89058024BC/Field/=Entity/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E84D82DA43999D4AB15EFB89058024BC/Field/=EntityBaseType/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E84D82DA43999D4AB15EFB89058024BC/Field/=EntityBaseType/Order/@EntryValue">2</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=EE338C38B3761843B041C00687C760D6/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=EE338C38B3761843B041C00687C760D6/Applicability/=File/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=EE338C38B3761843B041C00687C760D6/CustomProperties/=Extension/@EntryIndexedValue">cs</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=EE338C38B3761843B041C00687C760D6/CustomProperties/=FileName/@EntryIndexedValue">Class</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=EE338C38B3761843B041C00687C760D6/CustomProperties/=ValidateFileName/@EntryIndexedValue">False</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=EE338C38B3761843B041C00687C760D6/Description/@EntryValue">Entity Test Api Controller</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=EE338C38B3761843B041C00687C760D6/Field/=Entity/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=EE338C38B3761843B041C00687C760D6/Field/=Entity/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=EE338C38B3761843B041C00687C760D6/Field/=EntityBaseType/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=EE338C38B3761843B041C00687C760D6/Field/=EntityBaseType/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=EE338C38B3761843B041C00687C760D6/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=EE338C38B3761843B041C00687C760D6/Scope/=E8F0594528C33E45BBFEC6CFE851095D/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=EE338C38B3761843B041C00687C760D6/Scope/=E8F0594528C33E45BBFEC6CFE851095D/Type/@EntryValue">InCSharpProjectFile</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=EE338C38B3761843B041C00687C760D6/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=EE338C38B3761843B041C00687C760D6/Text/@EntryValue">using NSubstitute;&#xD;
+&#xD;
+namespace UT.ApiControllerTests;&#xD;
+&#xD;
+/// &lt;summary&gt;&#xD;
+/// Test for the $Entity$ API Controller&#xD;
+/// This is based upon a $EntityBaseType$  (Valid values are int, long, str, guid, ulid)&#xD;
+/// &lt;/summary&gt;&#xD;
+[TestFixture]&#xD;
+public class $Entity$ControllerTest : AbstractController$EntityBaseType$Test&lt;$Entity$, E2EntityRepository$EntityBaseType$&lt;$Entity$&gt;, EntityController$EntityBaseType$&lt;$Entity&gt;&gt;&#xD;
+{&#xD;
+    #region "NonTestCode"&#xD;
+&#xD;
+    /// &lt;summary&gt;&#xD;
+    /// Builds the engine / Repository that retreives the Entity to/from database&#xD;
+    /// &lt;/summary&gt;&#xD;
+    /// &lt;param name="sm"&gt;&lt;/param&gt;&#xD;
+    /// &lt;returns&gt;&lt;/returns&gt;&#xD;
+    public override E2EntityRepository$EntityBaseType$&lt;$Entity$&gt; GetEngine(SupportMethods sm)&#xD;
+    {&#xD;
+        E2EntityRepository$EntityBaseType$&lt;$Entity&gt; repository = new(sm.DB!, MockLogger_$Entity$Engine);&#xD;
+&#xD;
+        return repository;&#xD;
+    }&#xD;
+&#xD;
+&#xD;
+&#xD;
+    public override EntityController$EntityBaseType$&lt;$Entity$&gt; GetController(SupportMethods sm,&#xD;
+                                                              E2EntityRepository$EntityBaseType$&lt;$Entity$&gt; repositoryEngine)&#xD;
+    {&#xD;
+        EntityController$EntityBaseType$&lt;$Entity$&gt; controller =&#xD;
+            new $Entity$Controller(MockLogger_$Entity$Controller,&#xD;
+                                        sm.DB!,&#xD;
+                                        repositoryEngine,&#xD;
+                                        SupportMethods.ServiceProvider);&#xD;
+        return controller;&#xD;
+    }&#xD;
+&#xD;
+&#xD;
+&#xD;
+    /// &lt;summary&gt;&#xD;
+    /// Logger used by these tests&#xD;
+    /// &lt;/summary&gt;&#xD;
+    public static MockLogger&lt;E2EntityRepository$EntityBaseType$&lt;$Entity$&gt;&gt; MockLogger_$Entity$Engine&#xD;
+    {&#xD;
+        get { return Substitute.For&lt;MockLogger&lt;E2EntityRepository$EntityBaseType$&lt;$Entity$&gt;&gt;&gt;(); }&#xD;
+    }&#xD;
+&#xD;
+&#xD;
+    /// &lt;summary&gt;&#xD;
+    /// Logger used by these tests&#xD;
+    /// &lt;/summary&gt;&#xD;
+    public static MockLogger&lt;$Entity$Controller&gt; MockLogger_$Entity$Controller&#xD;
+    {&#xD;
+        get { return Substitute.For&lt;MockLogger&lt;$Entity$Controller&gt;&gt;(); }&#xD;
+    }&#xD;
+&#xD;
+    #endregion&#xD;
+}&#xD;
+</s:String></wpf:ResourceDictionary>

@@ -95,7 +95,7 @@ public class E2EntityRepository<TEntity> where TEntity :  Abstract_Entity, IEnti
             {
                 if (includeInactive)
                 {
-                    List<TEntity> listAll = await _db.Set<TEntity>().ToListAsync();
+                    List<TEntity> listAll = await _db.Set<TEntity>().Select(l => l).ToListAsync();
                     return Result.Ok(listAll);
                 }
 

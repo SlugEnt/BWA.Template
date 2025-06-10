@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using MudExtensions;
-using SlugEnt.FluentResults;
 using SlugEnt.BWA.Entities;
+using SlugEnt.FluentResults;
 
 namespace SlugEnt.BWA.BusinessComponents.Abstracts;
 
@@ -11,7 +11,7 @@ namespace SlugEnt.BWA.BusinessComponents.Abstracts;
 /// This is used for entities that have an integer key and implement the IEntityLookup interface.
 /// </summary>
 /// <typeparam name="TEntityInt"></typeparam>
-public partial class SelectorInt<TEntityInt> : ComponentBase where TEntityInt : class, IEntityLookupInt, new()
+public partial class SelectorInt<TEntityInt> : ComponentBase where TEntityInt : AbstractEntityInt, new()
 {
     /// <summary>
     /// This is the default constructor.  It is used to set the default values for the component.
@@ -61,7 +61,7 @@ public partial class SelectorInt<TEntityInt> : ComponentBase where TEntityInt : 
 
     /// <summary> The Repository Service that will be used to retrieve the entity data from the server. </summary>
     [Inject]
-    protected IEntityRepositoryE2<TEntityInt>? _entityLookupService { get; set; }
+    protected IEntityRepositoryE2Int<TEntityInt>? _entityLookupService { get; set; }
 
 #endregion
 

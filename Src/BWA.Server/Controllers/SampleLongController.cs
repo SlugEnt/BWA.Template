@@ -5,12 +5,7 @@ using SlugEnt.BWA.Database;
 using SlugEnt.BWA.Entities;
 using SlugEnt.HR.NextGen.Entities.Models;
 
-namespace SlugEnt.BWA.Server.Controllers
-{
-    public class SampleLongController
-    {
-    }
-}
+namespace SlugEnt.BWA.Server.Controllers;
 
 
 

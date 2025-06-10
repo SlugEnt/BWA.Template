@@ -36,6 +36,14 @@ If you find yourself needing to modify the Program.cs file, please let me know s
 
 You should not really need to rename the Client or the Server Apps.  The only thing you should need to change is the Server's Assembly Name.
 
+### Resharper Templates
+The project comes with Resharper templates that help create the following classes for you:
+* An Entity
+* Controller for an Entity
+* Controller Test for an Entity
+* Repository Test for an Entity
+* *
+
 # # Getting Started
 1. Reset the BWA.Server projects UserSecretsId!  Failure to do so will cause issues later with this template's running and your app.
         1. Open the BWA's Server project's .csproj file and delete the UserSecretsId line.  

@@ -12,87 +12,69 @@ namespace BWA.BusinessComponents.Generics;
 /// </summary>
 public abstract class AbstractE2ComponentInt<TEntityInt> : AbstractE2Component<TEntityInt> where TEntityInt : AbstractEntityInt, IEntityInt, new()
 {
-    protected int _currentRecordId = 0; // The Id of the record to be edited, deleted, or viewed.  This is used to retrieve the record from the database.
-
-    [Inject] protected IEntityRepositoryE2Int<TEntityInt>? _entityRepository { get { return (IEntityRepositoryE2Int<TEntityInt>)_entityLookupService;} set { _entityLookupService = value; } }
+    [Inject] protected IEntityRepositoryE2Int<TEntityInt>? _entityRepository { get { return (IEntityRepositoryE2Int<TEntityInt>)_entityLookupService; } set { _entityLookupService = value; } }
 
 
     /// <summary>
-    /// Processes the user clicking the Activate/Deactivate button
+    /// Constructor
+    /// </summary>
+    /// <param name="entitySingularName"></param>
+    /// <param name="entityPluralName"></param>
+    /// <param name="returnToPage"></param>
+    public AbstractE2ComponentInt(string entitySingularName = "",
+                               string entityPluralName = "",
+                               string returnToPage = "") : base(entitySingularName, entityPluralName, returnToPage) { }
+
+
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+    }
+
+
+
+    /// <summary>
+    /// Changes the activation status of the entity.
     /// </summary>
     /// <param name="entity"></param>
     /// <returns></returns>
-    protected async Task OnChangeActivationClick(TEntityInt entity)
+    protected override async Task<Result> ExecuteActivationChange(TEntityInt entity)
     {
-        string wordPresent = "de-activating";
-        string wordPast    = "de-activated";
-
-        if (!entity.IsActive)
-        {
-            wordPresent = "activating";
-            wordPast    = "activated";
-        }
-
         try
         {
-            Result result;
-
             // TODO Fix the Person ID who is updating the Entity.
+            Result result;
             if (entity.IsActive)
                 result = await _entityRepository.DeActivateAsync(entity.Id, 1);
             else
                 result = await _entityRepository.ActivateAsync(entity.Id, 1);
-
-            if (!result.IsSuccess)
-            {
-                ErrorManager.AddError(result);
-                Snackbar.Add($"Error {wordPresent} the Company - " + result.ErrorTitle, Severity.Error);
-                return;
-            }
-
-            entity.IsActive = !entity.IsActive;
-            Snackbar.Add($"Company {wordPast}");
+            return result;
         }
-
         catch (Exception e)
         {
-            ErrorManager.AddError(e, $"Failed {wordPresent} the Company");
-            Snackbar.Add($"Error {wordPresent} the Company - Exception: " + e.Message, Severity.Error);
-            return;
+            return Result.Fail(new ExceptionalError($"Failed to successfully change the activation of the {_entitySingluarName} due to an error: {e.Message}", e));
         }
-
     }
 
 
-
-    /// <summary>
-    /// Loads the record to be edited into the model object
-    /// </summary>
-    /// <returns></returns>
-    protected override async Task LoadRecordToBeEdited()
+    protected override async Task<Result<TEntityInt>> ExecuteLoadSingleEntityById()
     {
         try
         {
             // We call the AnyStatus variant as we might be editing an inactive version....
-            Result<TEntityInt> x = await _entityRepository.GetByIdAnyStatusAsync(_currentRecordId);
-            if (x.IsFailed)
-            {
-                _errMsg     = $"Failed to load the requested entity record [{_currentRecordId}].  Error was: {x.ErrorTitle}";
-                _errVisible = true;
-                model       = null;
-                return;
-            }
-
-            model = x.Value;
+            Result<TEntityInt> x = await _entityRepository.GetByIdAnyStatusAsync(_modelDefault.Id);
+            return x;
         }
-
         catch (Exception e)
         {
-            ErrorManager.AddError(e, "LoadRecordToBeEdited had unexpected error");
-            _errMsg     = $"Unhandled error in LoadRecordToBeEdited:  {e.Message}";
-            _errVisible = true;
+            return Result.Fail(new ExceptionalError($"Failed to successfully load the {_entitySingluarName} record due to an error: {e.Message}", e));
         }
     }
+
+
+
 
 
 
@@ -101,8 +83,8 @@ public abstract class AbstractE2ComponentInt<TEntityInt> : AbstractE2Component<T
     /// </summary>
     protected override void SetInitialCurrentRecord()
     {
-        
-            if (recordId != null)
+
+        if (recordId != null)
         {
             bool success = int.TryParse(recordId, out int id);
             if (!success)
@@ -112,13 +94,13 @@ public abstract class AbstractE2ComponentInt<TEntityInt> : AbstractE2Component<T
                 return;
             }
 
-            _currentRecordId = id;
+            _modelDefault.Id = id;
             return;
         }
 
         if ((mode == "E" || mode == "D") && recordId == null)
         {
-            _errMsg     = $"The record ID passed in [{recordId}] was null.";
+            _errMsg = $"The record ID passed in [{recordId}] was null.";
             _errVisible = true;
             return;
         }

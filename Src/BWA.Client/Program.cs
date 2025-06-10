@@ -44,6 +44,7 @@ builder.Services.AddSingleton<ErrorManager>();
 // API Connector Services
 builder.Services.AddScoped<IEntityRepositoryE2Int<User>, EntityDataServiceInt<User>>();
 builder.Services.AddScoped<IEntityRepositoryE2Int<SampleInt>, EntityDataServiceInt<SampleInt>>();
+builder.Services.AddScoped<IEntityRepositoryE2Long<SampleLong>, EntityDataServiceLong<SampleLong>>();
 
 
 builder.Services.AddHttpClient<IWeatherForecaster, ClientWeatherForecaster>(httpClient =>

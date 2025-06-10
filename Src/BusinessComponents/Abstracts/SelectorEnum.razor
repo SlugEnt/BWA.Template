@@ -1,7 +1,4 @@
-﻿@using SlugEnt.HR.NextGen.Entities.Models
-@using BWA.BusinessComponents.Abstracts
-@using SlugEnt.BWA.BusinessComponents.Abstracts
-
+﻿@using SlugEnt.BWA.BusinessComponents.Abstracts
 @typeparam TEnum
 
 
@@ -16,7 +13,7 @@
 
 @if (!_isReady)
 {
-    <p>Loading Subdivisions</p>
+    <p>Loading</p>
 }
 else
 {
@@ -25,8 +22,7 @@ else
         <MudTooltip RootClass="tooltip-fixed">
             <ChildContent>
                 <MudSelectExtended T="EnumItem"
-                                   Label="@_labelText"
-                                   ItemCollection="_enumList"
+                                   Label="@Label"
                                    ValueChanged="EnumSelectChanged"
                                    ValuePresenter="@ValuePresenter"
                                    Variant="Variant.Outlined"

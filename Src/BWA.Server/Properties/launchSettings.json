@@ -13,6 +13,7 @@
     "https": {
       "commandName": "Project",
       "commandLineArgs": "--debug-mode --development-mode ",
+      "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

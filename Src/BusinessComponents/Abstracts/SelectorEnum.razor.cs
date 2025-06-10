@@ -102,15 +102,14 @@ public partial class SelectorEnum<TEnum> : ComponentBase where TEnum : struct, E
     {
         if (!_initializationCompleted)
             return;
-
-        bool listReadSuccess = false;
-
+        
         if (isProcessing)
             return;
 
-        
 
-
+        // Simple Parameter checks...
+       // if (Label != _labelText) // If the label has changed, set the label text to the new value.
+        //    _labelText = Label;
         try
         {
             isProcessing = true;
@@ -125,9 +124,6 @@ public partial class SelectorEnum<TEnum> : ComponentBase where TEnum : struct, E
             }
             else
             {
-                // Simple Parameter checks...
-                if (Label != _labelText) // If the label has changed, set the label text to the new value.
-                    _labelText = Label;
 
                 // Drop down sort
                 if (_sortDropDown != SortDropDown)

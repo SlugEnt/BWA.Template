@@ -17,79 +17,42 @@ public abstract class AbstractE2ComponentStr<TEntityStr> : AbstractE2Component<T
     }
 
 
+
     /// <summary>
-    /// Processes the user clicking the Activate/Deactivate button
+    /// Changes the activation status of the entity.
     /// </summary>
     /// <param name="entity"></param>
     /// <returns></returns>
-    protected async Task OnChangeActivationClick(TEntityStr entity)
+    protected override async Task<Result> ExecuteActivationChange(TEntityStr entity)
     {
-        string wordPresent = "de-activating";
-        string wordPast    = "de-activated";
-
-        if (!entity.IsActive)
-        {
-            wordPresent = "activating";
-            wordPast    = "activated";
-        }
-
         try
         {
-            Result result;
-
             // TODO Fix the Person ID who is updating the Entity.
+            Result result;
             if (entity.IsActive)
                 result = await _entityRepository.DeActivateAsync(entity.Id, 1);
             else
                 result = await _entityRepository.ActivateAsync(entity.Id, 1);
-
-            if (!result.IsSuccess)
-            {
-                ErrorManager.AddError(result);
-                Snackbar.Add($"Error {wordPresent} the Company - " + result.ErrorTitle, Severity.Error);
-                return;
-            }
-
-            entity.IsActive = !entity.IsActive;
-            Snackbar.Add($"Company {wordPast}");
+            return result;
         }
-
         catch (Exception e)
         {
-            ErrorManager.AddError(e, $"Failed {wordPresent} the Company");
-            Snackbar.Add($"Error {wordPresent} the Company - Exception: " + e.Message, Severity.Error);
-            return;
+            return Result.Fail(new ExceptionalError($"Failed to successfully change the activation of the {_entitySingluarName} due to an error: {e.Message}", e));
         }
     }
 
 
-
-    /// <summary>
-    /// Loads the record to be edited into the model object
-    /// </summary>
-    /// <returns></returns>
-    protected override async Task LoadRecordToBeEdited()
+    protected override async Task<Result<TEntityStr>> ExecuteLoadSingleEntityById()
     {
         try
         {
             // We call the AnyStatus variant as we might be editing an inactive version....
-            Result<TEntityStr> x = await _entityRepository.GetByIdAnyStatusAsync(_currentRecordId);
-            if (x.IsFailed)
-            {
-                _errMsg     = $"Failed to load the requested entity record [{_currentRecordId}].  Error was: {x.ErrorTitle}";
-                _errVisible = true;
-                model       = null;
-                return;
-            }
-
-            model = x.Value;
+            Result<TEntityStr> x = await _entityRepository.GetByIdAnyStatusAsync(_modelDefault.Id);
+            return x;
         }
-
         catch (Exception e)
         {
-            ErrorManager.AddError(e, "LoadRecordToBeEdited had unexpected error");
-            _errMsg     = $"Unhandled error in LoadRecordToBeEdited:  {e.Message}";
-            _errVisible = true;
+            return Result.Fail(new ExceptionalError($"Failed to successfully load the {_entitySingluarName} record due to an error: {e.Message}", e));
         }
     }
 

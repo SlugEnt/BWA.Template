@@ -13,16 +13,23 @@ namespace BWA.BusinessComponents.Generics;
 /// a component page to an HTTP API or an Entity Repository.
 /// </summary>
 /// <typeparam name="TEntity"></typeparam>
-public abstract class AbstractE2Component<TEntity> : AbstractCRUDComponent where TEntity : class,  IEntity, new()
+public abstract class AbstractE2Component<TEntity> : AbstractCRUDComponent where TEntity : class, IEntity, new()
 {
-    protected TEntity model = new();
-    protected string  _apiName;
+    protected TEntity model = new();    // This is used during edit operations of a single entity.
+    protected TEntity? _modelDefault = new();    // This is used to basically store the entity ID for retrieval and other operations since the Id value can be of different types.
+    protected string _apiName;
     protected IEntityRepositoryE2<TEntity> _entityLookupService;
 
-    
+
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="entitySingularName"></param>
+    /// <param name="entityPluralName"></param>
+    /// <param name="returnToPage"></param>
+    public AbstractE2Component(string entitySingularName = "", string entityPluralName = "", string returnToPage = "") : base(entitySingularName, entityPluralName, returnToPage) { }
 
 
-    
 
     /// <summary>
     ///     Performs Initialization of the component.
@@ -40,6 +47,11 @@ public abstract class AbstractE2Component<TEntity> : AbstractCRUDComponent where
         _entityLookupService!.ApiName = _apiName;
     }
 
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+    }
 
 
 
@@ -64,12 +76,12 @@ public abstract class AbstractE2Component<TEntity> : AbstractCRUDComponent where
                     ErrorManager.AddError(resultSave);
 
                     // TODO Change Entity to some property on the Entity that we need to define.
-                    Snackbar.Add($"Error Saving Entity - " + resultSave.ErrorTitle, Severity.Error);
+                    Snackbar.Add($"Error Saving {_entitySingluarName} - " + resultSave.ErrorTitle, Severity.Error);
                     return;
                 }
 
                 // TODO Change Entity to some property on the Entity that we need to define.
-                Snackbar.Add("Entity Saved!");
+                Snackbar.Add($"{_entitySingluarName} Saved!");
 
                 // Switch to List Mode
                 await SetListMode();
@@ -78,8 +90,8 @@ public abstract class AbstractE2Component<TEntity> : AbstractCRUDComponent where
         catch (Exception e)
         {
             // TODO Change Entity to some property on the Entity that we need to define
-            ErrorManager.AddError(e, "Unable to Update the Company");
-            Snackbar.Add("Error Updating the Company - Exception: " + e.Message, Severity.Error);
+            ErrorManager.AddError(e, $"Unable to Save the new {_entitySingluarName}");
+            Snackbar.Add($"Error Creating the new {_entitySingluarName} - Exception: " + e.Message, Severity.Error);
         }
     }
 
@@ -109,12 +121,12 @@ public abstract class AbstractE2Component<TEntity> : AbstractCRUDComponent where
             {
                 ErrorManager.AddError(updateResult);
                 // TODO Change Entity to some property on the Entity that we need to define
-                Snackbar.Add("Error Updating the Company - " + updateResult.ErrorTitle, Severity.Error);
+                Snackbar.Add($"Error Updating the {_entitySingluarName} - " + updateResult.ErrorTitle, Severity.Error);
                 return;
             }
 
             // TODO Change Entity to some property on the Entity that we need to define
-            Snackbar.Add("Company Updated");
+            Snackbar.Add($"{_entitySingluarName} Updated");
 
             // Switch to List Mode
             await SetListMode();
@@ -123,8 +135,8 @@ public abstract class AbstractE2Component<TEntity> : AbstractCRUDComponent where
         catch (Exception e)
         {
             // TODO Change Entity to some property on the Entity that we need to define
-            ErrorManager.AddError(e, "Unable to Update the Company");
-            Snackbar.Add("Error Updating the Company - Exception: " + e.Message, Severity.Error);
+            ErrorManager.AddError(e, $"Unable to Update the {_entitySingluarName}");
+            Snackbar.Add($"Error Updating the {_entitySingluarName} - Exception: " + e.Message, Severity.Error);
         }
     }
 
@@ -139,9 +151,9 @@ public abstract class AbstractE2Component<TEntity> : AbstractCRUDComponent where
     protected string IsActiveIconButtonText(TEntity entity)
     {
         if (entity.IsActive)
-            return "Deactivate Company";
+            return $"{_entitySingluarName} Deactivated";
 
-        return "Activate Company";
+        return $"{_entitySingluarName} Activated";
     }
 
 
@@ -157,4 +169,133 @@ public abstract class AbstractE2Component<TEntity> : AbstractCRUDComponent where
         else
             return Color.Primary;
     }
+
+
+
+    /// <summary>
+    /// Loads the record to be edited into the model object
+    /// </summary>
+    /// <returns></returns>
+    protected override async Task LoadRecordToBeEdited()
+    {
+        try
+        {
+            // We call the AnyStatus variant as we might be editing an inactive version....
+            Result<TEntity> x = await ExecuteLoadSingleEntityById();
+            if (x.IsFailed)
+            {
+                ErrorManager.AddError(x);
+                Snackbar.Add($"Failed to load the {_entitySingluarName} record: " + x.ErrorTitle, Severity.Error);
+                _errMsg = $"Failed to load the requested entity record [{_modelDefault.KeyId}].  Error was: {x.ErrorTitle}";
+                _errVisible = true;
+                model = null;
+                return;
+            }
+
+            model = x.Value;
+        }
+
+        catch (Exception e)
+        {
+            ErrorManager.AddError(e, $"Failed to load {_entitySingluarName} with id of {_modelDefault.KeyId}");
+            Snackbar.Add($"Failed to load the {_entitySingluarName} record  - Exception: " + e.Message, Severity.Error);
+            _errMsg = $"Unhandled error in LoadRecordToBeEdited:  {e.Message}";
+            _errVisible = true;
+        }
+    }
+
+
+
+    /// <summary>
+    /// Method in  derived class that loads a single entity by its Id.
+    /// </summary>
+    /// <returns></returns>
+    protected abstract Task<Result<TEntity>> ExecuteLoadSingleEntityById();
+
+
+
+    /// <summary>
+    /// Processes the user clicking the Activate/Deactivate button
+    /// </summary>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    protected async Task OnChangeActivationClick(TEntity entity)
+    {
+        string wordPresent = "de-activating";
+        string wordPast = "de-activated";
+
+        if (!entity.IsActive)
+        {
+            wordPresent = "activating";
+            wordPast = "activated";
+        }
+
+        try
+        {
+
+            Result result = await ExecuteActivationChange(entity);
+
+            if (!result.IsSuccess)
+            {
+                ErrorManager.AddError(result);
+                Snackbar.Add($"Error {wordPresent} the {_entitySingluarName} - " + result.ErrorTitle, Severity.Error);
+                return;
+            }
+
+            entity.IsActive = !entity.IsActive;
+            Snackbar.Add($"{_entitySingluarName} was {wordPast}");
+        }
+
+        catch (Exception e)
+        {
+            ErrorManager.AddError(e, $"Failed {wordPresent} the {_entitySingluarName}");
+            Snackbar.Add($"Error {wordPresent} the {_entitySingluarName} - Exception: " + e.Message, Severity.Error);
+        }
+
+    }
+
+
+
+    /// <summary>
+    /// Changes the Activation state of the given entity
+    /// </summary>
+    /// <param name="entity">The entity whose activation state should be changed</param>
+    /// <returns></returns>
+    protected abstract Task<Result> ExecuteActivationChange(TEntity entity);
+
+
+    #region "Quick Editing Methods"
+
+
+    /// <summary>
+    /// This is called when a user starts to edit a Data Grid Row
+    /// </summary>
+    /// <param name="entity"></param>
+    protected void StartedQuickEditing(TEntity entity)
+    {
+        // Put any logic here you need to do before you start editing data in the grid.    
+    }
+
+
+    /// <summary>
+    /// This is called if a user cancels a Data Grid Edit
+    /// </summary>
+    /// <param name="entity"></param>
+    protected void CancelledQuickEditing(TEntity entity)
+    {
+        // Put any logic here you need to do before you start editing data in the grid.    
+    }
+
+
+    /// <summary>
+    /// This is called when a user is saving a Data Grid row.
+    /// </summary>
+    /// <param name="entity"></param>
+    protected void CommitQuickEditingSave(TEntity entity)
+    {
+        UpdateEntity(entity);
+
+        // Put any logic here you need to do After committing the changes when editing data in the grid.    
+    }
+    #endregion    
 }
