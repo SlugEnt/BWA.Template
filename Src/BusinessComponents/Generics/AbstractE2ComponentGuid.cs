@@ -17,6 +17,16 @@ public abstract class AbstractE2ComponentGuid<TEntityGuid> : AbstractE2Component
     [Inject] protected IEntityRepositoryE2Guid<TEntityGuid>? _entityRepository { get { return (IEntityRepositoryE2Guid<TEntityGuid>)_entityLookupService;} set { _entityLookupService = value; } }
 
 
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="entitySingularName"></param>
+    /// <param name="entityPluralName"></param>
+    /// <param name="returnToPage"></param>
+    public AbstractE2ComponentGuid(string entitySingularName = "",
+                                  string entityPluralName = "",
+                                  string returnToPage = "") : base(entitySingularName, entityPluralName, returnToPage) { }
+
 
     /// <summary>
     /// Changes the activation status of the entity.

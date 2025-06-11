@@ -34,13 +34,13 @@ else
 
 
         <MudCard>
-            <MudDataGrid Items="@_companies" T="SampleLong" Striped="true" Bordered="true"
+            <MudDataGrid Items="@_entities" T="SampleLong" Striped="true" Bordered="true"
                          StartedEditingItem="@StartedQuickEditing"
                          CanceledEditingItem="@CancelledQuickEditing"
                          CommittedItemChanges="@CommitQuickEditingSave">
                 <Columns>
-                    <PropertyColumn Property="p => p.FullName" Title="Full Company Name" Editable="false"/>
-                    <PropertyColumn Property="p => p.SampleName" Title="Company Name"/>
+                    <PropertyColumn Property="p => p.FullName" Title="Full Name" Editable="false"/>
+                    <PropertyColumn Property="p => p.SampleName" Title="Sample Name"/>
                     <PropertyColumn Property="p => p.IsActive" Title="Is Active" Editable="false" CellClass="d-flex align-center justify-center">
                         <CellTemplate>
                             @if (context.Item.IsActive == true)
@@ -58,7 +58,7 @@ else
                             <MudStack Row="true">
                                 @if (!_isReadOnly)
                                 {
-                                    <MudTooltip Text="Edit Company">
+                                    <MudTooltip Text="Edit SampleLong">
                                         <MudIconButton Icon="@Icons.Material.Outlined.Edit" OnClick="@(async e => await StartNormalEditOfRecord(context.Item))" Size="@Size.Small" Variant="Variant.Filled" Color="Color.Primary"/>
                                     </MudTooltip>
                                 }
@@ -94,11 +94,11 @@ else
             <MudCardActions>
                 @if (_isCreateMode)
                 {
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="@(async () => await CreateEntity())">Save Company</MudButton>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="@(async () => await CreateEntity())">Save @_entitySingluarName</MudButton>
                 }
                 else
                 {
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="@(async () => await UpdateEntity())">Update Company</MudButton>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="@(async () => await UpdateEntity())">Update @_entitySingluarName</MudButton>
                 }
             </MudCardActions>
         </MudCard>

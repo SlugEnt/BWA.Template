@@ -54,6 +54,7 @@ public class ProgramCustom : ProgramCustomBase
 
         // Add your own controllers here:
         builder.Services.AddTransient<IEntityRepositoryE2Int<AppSetting>, E2EntityRepositoryInt<AppSetting>>();
+        builder.Services.AddTransient<IEntityRepositoryE2Long<SampleLong>, E2EntityRepositoryLong<SampleLong>> ();
 
         builder.Services.AddScoped<IWeatherForecaster, ServerWeatherForecaster>();
 

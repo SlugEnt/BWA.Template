@@ -17,6 +17,16 @@ public abstract class AbstractE2ComponentUlid<TEntityUlid> : AbstractE2Component
     [Inject] protected IEntityRepositoryE2Ulid<TEntityUlid>? _entityRepository { get { return (IEntityRepositoryE2Ulid<TEntityUlid>)_entityLookupService; } set { _entityLookupService = value; } }
 
 
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="entitySingularName"></param>
+    /// <param name="entityPluralName"></param>
+    /// <param name="returnToPage"></param>
+    public AbstractE2ComponentUlid(string entitySingularName = "",
+                                  string entityPluralName = "",
+                                  string returnToPage = "") : base(entitySingularName, entityPluralName, returnToPage) { }
+
 
     /// <summary>
     /// Changes the activation status of the entity.

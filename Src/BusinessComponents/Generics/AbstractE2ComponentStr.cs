@@ -17,6 +17,17 @@ public abstract class AbstractE2ComponentStr<TEntityStr> : AbstractE2Component<T
     }
 
 
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="entitySingularName"></param>
+    /// <param name="entityPluralName"></param>
+    /// <param name="returnToPage"></param>
+    public AbstractE2ComponentStr(string entitySingularName = "",
+                                  string entityPluralName = "",
+                                  string returnToPage = "") : base(entitySingularName, entityPluralName, returnToPage) { }
+
+
 
     /// <summary>
     /// Changes the activation status of the entity.

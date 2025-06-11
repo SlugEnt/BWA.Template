@@ -14,14 +14,14 @@ namespace SlugEnt.BWA.Client.Pages;
 public partial class SampleLongPage : AbstractE2ComponentLong<SampleLong>
 {
     
-    private List<SampleLong>  _companies;
+    private List<SampleLong>  _entities;
     SampleLongFluentValidator _validator = new SampleLongFluentValidator();
 
 
     /// <summary>
     /// Constructor.  Sets APIName to be called.
     /// </summary>
-    public SampleLongPage() : base()
+    public SampleLongPage() : base("Sample Long", "Sample Longs")
     {
         _apiName = "SampleLongs";
     }
@@ -64,7 +64,7 @@ public partial class SampleLongPage : AbstractE2ComponentLong<SampleLong>
         Result<List<SampleLong>> loadResult = await _entityLookupService.GetAllAsync(true, true);
         if (loadResult.IsFailed) { return; }
 
-        _companies = loadResult.Value;
+        _entities = loadResult.Value;
     }
 
 

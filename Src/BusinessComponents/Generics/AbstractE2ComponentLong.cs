@@ -18,6 +18,17 @@ public abstract class AbstractE2ComponentLong<TEntityLong> : AbstractE2Component
 
 
     /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="entitySingularName"></param>
+    /// <param name="entityPluralName"></param>
+    /// <param name="returnToPage"></param>
+    public AbstractE2ComponentLong(string entitySingularName = "",
+                                  string entityPluralName = "",
+                                  string returnToPage = "") : base(entitySingularName, entityPluralName, returnToPage) { }
+
+
+    /// <summary>
     /// Processes the user clicking the Activate/Deactivate button
     /// </summary>
     /// <param name="entity"></param>
@@ -46,18 +57,18 @@ public abstract class AbstractE2ComponentLong<TEntityLong> : AbstractE2Component
             if (!result.IsSuccess)
             {
                 ErrorManager.AddError(result);
-                Snackbar.Add($"Error {wordPresent} the Company - " + result.ErrorTitle, Severity.Error);
+                Snackbar.Add($"Error {wordPresent} the {_entitySingluarName} - " + result.ErrorTitle, Severity.Error);
                 return;
             }
 
             entity.IsActive = !entity.IsActive;
-            Snackbar.Add($"Company {wordPast}");
+            Snackbar.Add($"{_entitySingluarName} {wordPast}");
         }
 
         catch (Exception e)
         {
             ErrorManager.AddError(e, $"Failed {wordPresent} the Company");
-            Snackbar.Add($"Error {wordPresent} the Company - Exception: " + e.Message, Severity.Error);
+            Snackbar.Add($"Error {wordPresent} the {_entitySingluarName} - Exception: " + e.Message, Severity.Error);
             return;
         }
 

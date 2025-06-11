@@ -151,9 +151,9 @@ public abstract class AbstractE2Component<TEntity> : AbstractCRUDComponent where
     protected string IsActiveIconButtonText(TEntity entity)
     {
         if (entity.IsActive)
-            return $"{_entitySingluarName} Deactivated";
+            return $"Deactivate {_entitySingluarName}";
 
-        return $"{_entitySingluarName} Activated";
+        return $"Activate {_entitySingluarName}";
     }
 
 
