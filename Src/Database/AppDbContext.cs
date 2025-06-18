@@ -1,4 +1,6 @@
-﻿using ByteAether.Ulid;
+﻿using AppAny.Quartz.EntityFrameworkCore.Migrations;
+using AppAny.Quartz.EntityFrameworkCore.Migrations.SqlServer;
+using ByteAether.Ulid;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions.Infrastructure;
@@ -40,6 +42,9 @@ public class AppDbContext : DbContext
     {
         Console.WriteLine("In OnModelCreating");
         base.OnModelCreating(modelBuilder);
+
+        // QUARTZ:  Implement the Quartz Job Tracking Tables
+        modelBuilder.AddQuartz(builder => builder.UseSqlServer());
 
 
         //Add Auditing fields to the entities that need it!

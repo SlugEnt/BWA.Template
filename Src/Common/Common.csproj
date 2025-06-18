@@ -22,6 +22,8 @@
 		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.5" />
 		<PackageReference Include="Serilog.Sinks.Seq" Version="9.0.0" />
 		<PackageReference Include="SlugEnt.FluentResults" Version="3.18.0.3" />
+		<PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.14.0" />
+		<PackageReference Include="Quartz.Serialization.SystemTextJson" Version="3.14.0" />
 	</ItemGroup>
 
 	<ItemGroup>

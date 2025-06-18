@@ -3,10 +3,6 @@ using SlugEnt.BWA.Database;
 using SlugEnt.BWA.Entities.EntityEnums;
 using SlugEnt.BWA.Entities.Models;
 using SlugEnt.FluentResults;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-using System;
-using Bogus;
-using SlugEnt.HR.NextGen.Entities.Models;
 
 namespace SlugEnt.BWA.Common;
 

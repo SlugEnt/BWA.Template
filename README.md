@@ -2,11 +2,22 @@
 
 This template serves as a starting point for building a .Net compatible Blazor Web Assembly app with Auto Rendering.
 
+This template is best used for new projects that have control over the Database Tables.  It assumes that the models have some standard properties that are used throughout the app.  If you do not have control over the database tables, then this template may not be a good fit for you OR will require you to adjust the models.  
+You could adjust it for your needs.  But the best recommendation would be to leave the existing entities (AbstractEntityInt for example), controllers, Repositories alone and build a new one following the same model as an AbstractEntityInt.  You would then need to create the:
+* AbstractEntityXXX (Enbtities/Abstracts)
+* IEntityXXX (Entities/Interfaces)
+* Model Xyz, abc, etc (Entities/Models)
+* E2EntityRepositoryXXX (Common/E2Entity)
+* ControllerXXX (BWA.Server/Controllers))
+* EntityDataServiceXXX (BWA.Client/Services)
+* AbstractE2ComponentXXX (BusinessComponents/Generics))
+* *
+
+
 It has a number of key things to get you jump started into just building your app:
-* Authentication and Authorization are built in out of the box using Microsoft MSAL
-* Heavy use of Generica to reduce the amount of code you need to write.
-* Uses Microsoft OData to provide query parameters for the data models.  Note, it does not fully provide an OData interface, but that is rarely needed and prevents you from 
-* being able to build outside of the pure Rest model.  I take the best of OData and leave the rest out.
+* Authentication and Authorization are built in out of the box using Microsoft MSAL / Entra ID
+* Heavy use of Generics to reduce the amount of code you need to write.
+* Uses Microsoft OData to provide query parameters for the data models.  Note, it does not fully provide an OData interface, but that is rarely needed and prevents you from being able to build outside of the pure Rest model.  I take the best of OData and leave the rest out.
 * It has a complete database Entity model that works throughout the entire app to build a modern app that means just a few lines of code for an entity will provide:
     * An entity with auditing entries (Created/Modified) by Id and DateTimeUTC.  
     * Name Property for the entity that is used in the UI.
@@ -19,6 +30,10 @@ It has a number of key things to get you jump started into just building your ap
     * Sample Drop down controls for the Entity types that make it easy to standup these entities in related entities
     * Full unit tests of the entities, the repositories and the controllers
 * Has an imnproved database transaction model that allows multiple entities or repositories to use transactions without complicated logic to determine if already in one or not.*
+* Has a built in Quartz.Net Job Scheduling engine that:
+    * Stores jobs and job runs in the database under the schema QUARTZ.
+
+
 
 With the above, you can create a basic new entity in less than 5 minutes that provides a Repository, Controller, Service, Unit tests for each, and copy paste a sample blazor component and unit test that  you can immediately begin working with!
 
