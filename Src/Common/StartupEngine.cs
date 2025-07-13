@@ -103,7 +103,21 @@ public class StartupEngine
             if (GlobalAppData.AppSettings == null)
             {
                 // Read the Settings object from the database
-                GlobalAppData.AppSettings = _db.AppSettings.FirstOrDefault(s => s.Name == settingName);
+                if (_db.AppSettings.Count() > 0)
+                    GlobalAppData.AppSettings = _db.AppSettings.FirstOrDefault(s => s.Name == settingName);
+                else
+                {
+                    // Insert new first value
+                    AppSetting appsetting = new()
+                    {
+                        CurrentDbCodeVersion = 0,
+                        CreatedById          = GlobalAppData.SystemUser.Id,
+                        Name                 = settingName,
+                    };
+                    _db.Add(appsetting);
+                    _db.SaveChanges();
+                    GlobalAppData.AppSettings = appsetting;
+                }
 
                 // If still null then it does not exist, so create it.
                 if (GlobalAppData.AppSettings == null)
@@ -111,9 +125,9 @@ public class StartupEngine
                     // If it does not exist, create a new one.
                     GlobalAppData.AppSettings = new AppSetting()
                     {
-                        Name = settingName,
-                        CurrentDbCodeVersion = 0,       // Set to very first initial value
-                        IsActive = true,
+                        Name                 = settingName,
+                        CurrentDbCodeVersion = 0, // Set to very first initial value
+                        IsActive             = true,
                     };
 
                     _db.AppSettings.Add(GlobalAppData.AppSettings);

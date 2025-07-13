@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Azure.Core;
-using Bogus;
-using Bogus.DataSets;
-using Bogus.Extensions.UnitedStates;
+﻿using Bogus;
 using Microsoft.Extensions.Logging;
-using Serilog.Core;
 using SlugEnt.BWA.Database;
 using SlugEnt.FluentResults;
 using SlugEnt.HR.NextGen.Entities.Models;
@@ -36,21 +27,25 @@ public class AutomaticDataSeed
     private AppDbContext _db;
     private ILogger<AutomaticDataSeed> _logger;
 
-    private Faker        faker = new Faker();
+    private Faker faker = new Faker();
 
-    private Faker<SampleInt>?    _sampleIntFaker  = null;
-    private Faker<SampleGuid>?   _sampleGuidFaker = null;
-    private Faker<SampleUlid>?   _sampleUlidFaker = null;
-    private Faker<SampleString>? _sampleStrFaker  = null;
-    private Faker<SampleLong>? _sampleLongFaker  = null;
+    private Faker<SampleInt>? _sampleIntFaker = null;
+    private Faker<SampleGuid>? _sampleGuidFaker = null;
+    private Faker<SampleUlid>? _sampleUlidFaker = null;
+    private Faker<SampleString>? _sampleStrFaker = null;
+    private Faker<SampleLong>? _sampleLongFaker = null;
+
+
 
 
     /// <summary>
     /// Constructs the Automatic Data Seed class with the database context.
     /// </summary>
     /// <param name="db"></param>
-    public AutomaticDataSeed(AppDbContext db, ILogger<AutomaticDataSeed> logger) { _db = db;
-        _logger                                                                        = logger;
+    public AutomaticDataSeed(AppDbContext db, ILogger<AutomaticDataSeed> logger)
+    {
+        _db = db;
+        _logger = logger;
     }
 
 
@@ -64,7 +59,7 @@ public class AutomaticDataSeed
 
         try
         {
-            Result seedResult     = Result.Ok();
+            Result seedResult = Result.Ok();
 
             // Update the Sample Ints
             seedResult = Result.Merge(seedResult, ImplementResult(SeedData_SampleInts, ref newVersionCode));
@@ -98,8 +93,8 @@ public class AutomaticDataSeed
         catch (Exception e)
         {
             // Log the Error.
-            _logger.LogError(e,"Unplanned exception in {Class}:{Method} {Message}",nameof(AutomaticDataSeed), nameof(SeedData),e.Message);
-            return Result.Fail(new ExceptionalError($"Unplanned exception in {nameof(AutomaticDataSeed)}:{nameof(SeedData)}: Error: {e.Message}",e));
+            _logger.LogError(e, "Unplanned exception in {Class}:{Method} {Message}", nameof(AutomaticDataSeed), nameof(SeedData), e.Message);
+            return Result.Fail(new ExceptionalError($"Unplanned exception in {nameof(AutomaticDataSeed)}:{nameof(SeedData)}: Error: {e.Message}", e));
         }
         finally
         {
@@ -126,31 +121,36 @@ public class AutomaticDataSeed
     /// <param name="seedAction"></param>
     /// <param name="version"></param>
     /// <returns></returns>
-    private Result ImplementResult(Func<int, Result> seedAction,
+    private Result ImplementResult(Func<int, Result<int>> seedAction,
                                    ref int version)
     {
-        bool         success           = false;
+        bool success = false;
         Result<uint> transactionResult = _db.DatabaseTransactionManager.StartTransaction();
         if (transactionResult.IsFailed)
             return transactionResult.ToResult();
 
         try
         {
-            Result result = seedAction(version);
+            Result<int> result = seedAction(version);
             if (result.IsFailed)
             {
-                return result;
+                return Result.Fail(result.Errors);
             }
 
-            version++;
+            if (result.Value > version)
+            {
+                // If the version is greater than the current version, we update it.
+                version = result.Value;
+            }
             success = true;
             return Result.Ok();
         }
         catch (Exception e)
         {
-            return Result.Fail(new ExceptionalError("Error while attempting to initalize or update the system.  Error in method: " + nameof(seedAction),e));
+            return Result.Fail(new ExceptionalError("Error while attempting to initalize or update the system.  Error in method: " + nameof(seedAction), e));
         }
-        finally{
+        finally
+        {
             // Commit or Rollback the transaction based upon success
             _db.DatabaseTransactionManager.CloseTransaction(transactionResult.Value, success);
         }
@@ -164,22 +164,22 @@ public class AutomaticDataSeed
     /// </summary>
     /// <param name="versionCheck"></param>
     /// <returns></returns>
-    private Result SeedData_SampleInts(int versionCheck)
+    private Result<int> SeedData_SampleInts(int versionCheck)
     {
         if (versionCheck >= VersionNumbers.SampleInt)
-            return Result.Ok();
+            return Result.Ok(VersionNumbers.SampleInt);
 
         // Create the Generator
         if (_sampleIntFaker == null)
             IntGenerator();
-        
 
-        // Perform some action to get it up to version 1
+
+        // Perform some action to get it up to current version
         IEnumerable<SampleInt> sampleInts = new List<SampleInt>();
         sampleInts = _sampleIntFaker.Generate(25);
         _db.SampleInt.AddRange(sampleInts);
         _db.SaveChanges();
-        return Result.Ok();
+        return Result.Ok(VersionNumbers.SampleInt);
     }
 
 
@@ -190,10 +190,10 @@ public class AutomaticDataSeed
     /// </summary>
     /// <param name="versionCheck"></param>
     /// <returns></returns>
-    private Result SeedData_SampleGuids(int versionCheck)
+    private Result<int> SeedData_SampleGuids(int versionCheck)
     {
         if (versionCheck >= VersionNumbers.SampleGuid)
-            return Result.Ok();
+            return Result.Ok(VersionNumbers.SampleGuid);
 
         // Create the Generator
         if (_sampleGuidFaker == null)
@@ -205,7 +205,7 @@ public class AutomaticDataSeed
         sampleGuids = _sampleGuidFaker.Generate(32);
         _db.SampleGuids.AddRange(sampleGuids);
         _db.SaveChanges();
-        return Result.Ok();
+        return Result.Ok(VersionNumbers.SampleGuid);
     }
 
 
@@ -216,10 +216,10 @@ public class AutomaticDataSeed
     /// </summary>
     /// <param name="versionCheck"></param>
     /// <returns></returns>
-    private Result SeedData_SampleUlids(int versionCheck)
+    private Result<int> SeedData_SampleUlids(int versionCheck)
     {
         if (versionCheck >= VersionNumbers.SampleUlid)
-            return Result.Ok();
+            return Result.Ok(VersionNumbers.SampleUlid);
 
         // Create the Generator
         if (_sampleUlidFaker == null)
@@ -231,7 +231,7 @@ public class AutomaticDataSeed
         sampleUlids = _sampleUlidFaker.Generate(46);
         _db.SampleUlids.AddRange(sampleUlids);
         _db.SaveChanges();
-        return Result.Ok();
+        return Result.Ok(VersionNumbers.SampleUlid);
     }
 
 
@@ -242,10 +242,10 @@ public class AutomaticDataSeed
     /// </summary>
     /// <param name="versionCheck"></param>
     /// <returns></returns>
-    private Result SeedData_SampleStrs(int versionCheck)
+    private Result<int> SeedData_SampleStrs(int versionCheck)
     {
         if (versionCheck >= VersionNumbers.SampleStr)
-            return Result.Ok();
+            return Result.Ok(VersionNumbers.SampleStr);
 
         // Create the Generator
         if (_sampleStrFaker == null)
@@ -257,7 +257,7 @@ public class AutomaticDataSeed
         sampleStrings = _sampleStrFaker.Generate(46);
         _db.SampleString.AddRange(sampleStrings);
         _db.SaveChanges();
-        return Result.Ok();
+        return Result.Ok(VersionNumbers.SampleStr);
     }
 
 
@@ -268,10 +268,10 @@ public class AutomaticDataSeed
     /// </summary>
     /// <param name="versionCheck"></param>
     /// <returns></returns>
-    private Result SeedData_SampleLongs(int versionCheck)
+    private Result<int> SeedData_SampleLongs(int versionCheck)
     {
         if (versionCheck >= VersionNumbers.SampleLong)
-            return Result.Ok();
+            return Result.Ok(VersionNumbers.SampleLong);
 
         // Create the Generator
         if (_sampleLongFaker == null)
@@ -283,7 +283,7 @@ public class AutomaticDataSeed
         sampleLongs = _sampleLongFaker.Generate(446);
         _db.SampleLongs.AddRange(sampleLongs);
         _db.SaveChanges();
-        return Result.Ok();
+        return Result.Ok(VersionNumbers.SampleLong);
     }
 
 
@@ -385,7 +385,7 @@ public class AutomaticDataSeed
                               .UseSeed(1969)
                               .RuleFor(p => p.SampleName, f => f.Company.CompanyName())
                               .RuleFor(p => p.IsActive, f => f.Random.Bool(0.75f))
-                              .RuleFor(p => p.SampleNumber, f => f.Random.Long(long.MaxValue-50000, long.MaxValue-10))
+                              .RuleFor(p => p.SampleNumber, f => f.Random.Int(int.MaxValue - 50000, int.MaxValue - 10))
                 ;
         }
 
