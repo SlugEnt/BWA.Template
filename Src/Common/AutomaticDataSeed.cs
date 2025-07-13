@@ -16,6 +16,18 @@ using SlugEnt.HR.NextGen.Entities.Models;
 namespace SlugEnt.BWA.Common;
 
 /// <summary>
+/// Class Keeps track of each significant Database Version / Update required.
+/// </summary>
+internal class VersionNumbers
+{
+    public const int SampleInt  = 1;
+    public const int SampleGuid = 2;
+    public const int SampleUlid = 3;
+    public const int SampleStr  = 4;
+    public const int SampleLong = 5;
+}
+
+/// <summary>
 /// Class that performs initial and major database change actions
 /// </summary>
 /// <remarks>You can remove the Faker objects in your own project as you probably do not need Fake Data!</remarks>
@@ -154,7 +166,7 @@ public class AutomaticDataSeed
     /// <returns></returns>
     private Result SeedData_SampleInts(int versionCheck)
     {
-        if (versionCheck >= 1)
+        if (versionCheck >= VersionNumbers.SampleInt)
             return Result.Ok();
 
         // Create the Generator
@@ -180,7 +192,7 @@ public class AutomaticDataSeed
     /// <returns></returns>
     private Result SeedData_SampleGuids(int versionCheck)
     {
-        if (versionCheck >= 2)
+        if (versionCheck >= VersionNumbers.SampleGuid)
             return Result.Ok();
 
         // Create the Generator
@@ -206,7 +218,7 @@ public class AutomaticDataSeed
     /// <returns></returns>
     private Result SeedData_SampleUlids(int versionCheck)
     {
-        if (versionCheck >= 3)
+        if (versionCheck >= VersionNumbers.SampleUlid)
             return Result.Ok();
 
         // Create the Generator
@@ -232,7 +244,7 @@ public class AutomaticDataSeed
     /// <returns></returns>
     private Result SeedData_SampleStrs(int versionCheck)
     {
-        if (versionCheck >= 4)
+        if (versionCheck >= VersionNumbers.SampleStr)
             return Result.Ok();
 
         // Create the Generator
@@ -258,7 +270,7 @@ public class AutomaticDataSeed
     /// <returns></returns>
     private Result SeedData_SampleLongs(int versionCheck)
     {
-        if (versionCheck >= 4)
+        if (versionCheck >= VersionNumbers.SampleLong)
             return Result.Ok();
 
         // Create the Generator
