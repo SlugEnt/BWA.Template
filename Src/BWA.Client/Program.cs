@@ -45,6 +45,7 @@ builder.Services.AddSingleton<ErrorManager>();
 builder.Services.AddScoped<IEntityRepositoryE2Int<User>, EntityDataServiceInt<User>>();
 builder.Services.AddScoped<IEntityRepositoryE2Int<SampleInt>, EntityDataServiceInt<SampleInt>>();
 builder.Services.AddScoped<IEntityRepositoryE2Long<SampleLong>, EntityDataServiceLong<SampleLong>>();
+builder.Services.AddScoped<IEntityRepositoryE2Guid<SampleGuid>, EntityDataServiceGuid<SampleGuid>>();
 
 
 builder.Services.AddHttpClient<IWeatherForecaster, ClientWeatherForecaster>(httpClient =>

@@ -1,5 +1,8 @@
 ﻿@using MudBlazor
+
+
 @inherits LayoutComponentBase
+
 
 @* Required *@
 <MudThemeProvider/>
@@ -10,13 +13,15 @@
 
 @* Needed for snackbars *@
 <MudSnackbarProvider/>
+
 <MudLayout >
+    <h1 class="text-muted">Render @(OperatingSystem.IsBrowser() ? "Wasm" : "Server")</h1>
 
     <MudThemeProvider Theme="_theme" @bind-IsDarkMode="@_isDarkMode"/>
     
     <MyAppBar></MyAppBar>
     <MudDrawer @bind-Open="@_drawerOpen">
-        <MyNavMenu/>
+        <NavMenuAfterLogin/>
     </MudDrawer>
 
     <MudMainContent>
@@ -36,7 +41,6 @@
 
     </MudMainContent>
 </MudLayout>
-
 
 
 @code {

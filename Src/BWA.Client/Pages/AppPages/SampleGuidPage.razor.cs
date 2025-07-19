@@ -1,29 +1,26 @@
 ﻿using BWA.BusinessComponents.Generics;
-using Microsoft.AspNetCore.Components;
-using MudBlazor;
 using SlugEnt.BWA.Entities.FluentValidators;
 using SlugEnt.FluentResults;
 using SlugEnt.HR.NextGen.Entities.Models;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace SlugEnt.BWA.Client.Pages;
 
 /// <summary>
 /// This is the Company Component Page which handles CRUD operations on the Company Entity
 /// </summary>
-public partial class SampleLongPage : AbstractE2ComponentLong<SampleLong>
+public partial class SampleGuidPage : AbstractE2ComponentGuid<SampleGuid>
 {
-    
-    private List<SampleLong>  _entities;
-    SampleLongFluentValidator _validator = new SampleLongFluentValidator();
+
+    private List<SampleGuid>  _entities;
+    SampleGuidFluentValidator _validator = new SampleGuidFluentValidator();
 
 
     /// <summary>
     /// Constructor.  Sets APIName to be called.
     /// </summary>
-    public SampleLongPage() : base("Sample Long", "Sample Longs")
+    public SampleGuidPage() : base("Sample Guid", "Sample Guid")
     {
-        _apiName = "SampleLongs";
+        _apiName = "SampleGuids";
     }
 
     /// <summary>
@@ -51,7 +48,7 @@ public partial class SampleLongPage : AbstractE2ComponentLong<SampleLong>
         if (_isCreateMode) { }
         else if (_isListMode)
         {
-//            ListLoadEntities();
+            //            ListLoadEntities();
         }
     }
 
@@ -61,16 +58,16 @@ public partial class SampleLongPage : AbstractE2ComponentLong<SampleLong>
     /// </summary>
     protected override async Task ListLoadEntities()
     {
-        Result<List<SampleLong>> loadResult = await _entityLookupService.GetAllAsync(true, true);
+        Result<List<SampleGuid>> loadResult = await _entityLookupService.GetAllAsync(true, true);
         if (loadResult.IsFailed) { return; }
 
         _entities = loadResult.Value;
     }
 
 
-    protected async Task StartNormalEditOfRecord(SampleLong entity)
+    protected async Task StartNormalEditOfRecord(SampleGuid entity)
     {
-        _modelDefault    = entity;
+        _modelDefault = entity;
         await SetEditMode();
     }
 

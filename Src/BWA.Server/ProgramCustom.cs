@@ -55,6 +55,8 @@ public class ProgramCustom : ProgramCustomBase
         // Add your own controllers here:
         builder.Services.AddTransient<IEntityRepositoryE2Int<AppSetting>, E2EntityRepositoryInt<AppSetting>>();
         builder.Services.AddTransient<IEntityRepositoryE2Long<SampleLong>, E2EntityRepositoryLong<SampleLong>> ();
+        builder.Services.AddTransient<IEntityRepositoryE2Int<SampleInt>, E2EntityRepositoryInt<SampleInt>>();
+        builder.Services.AddTransient<IEntityRepositoryE2Guid<SampleGuid>, E2EntityRepositoryGuid<SampleGuid>>();
 
         builder.Services.AddScoped<IWeatherForecaster, ServerWeatherForecaster>();
 
@@ -148,7 +150,9 @@ public class ProgramCustom : ProgramCustomBase
 
 
         modelBuilder.EntitySet<SampleLong>("SampleLongs");
-        
+        modelBuilder.EntitySet<SampleGuid>("SampleGuids");
+        modelBuilder.EntitySet<SampleInt>("SampleInts");
+
 
         IEdmModel model = modelBuilder.GetEdmModel();
         model.MarkAsImmutable();

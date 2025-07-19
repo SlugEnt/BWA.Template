@@ -1,22 +1,20 @@
-﻿@page "/SampleLongPage/{mode}"
-@page "/SampleLongPage/{mode}/{recordId}"
+﻿@page "/SampleIntPage/{mode}"
+@page "/SampleIntPage/{mode}/{recordId}"
 
+@namespace SlugEnt.BWA.Client.Pages
 @rendermode InteractiveWebAssembly
-@using global::BWA.BusinessComponents.Generics
 
-@inherits AbstractE2ComponentLong<SampleLong>
 
-@using FluentValidation
+@inherits AbstractE2ComponentInt<SampleInt>
+
+
 @using Severity = FluentValidation.Severity
-
-
-@using Microsoft.AspNetCore.Authorization
 
 
 
 
 <h1>@_pageTitle</h1>
-<hr/>
+<hr />
 
 
 @*  Page Level Critical Error Display *@
@@ -34,13 +32,12 @@ else
 
 
         <MudCard>
-            <MudDataGrid Items="@_entities" T="SampleLong" Striped="true" Bordered="true"
+            <MudDataGrid Items="@_entities" T="SampleInt" Striped="true" Bordered="true"
                          StartedEditingItem="@StartedQuickEditing"
                          CanceledEditingItem="@CancelledQuickEditing"
                          CommittedItemChanges="@CommitQuickEditingSave">
                 <Columns>
-                    <PropertyColumn Property="p => p.FullName" Title="Full Name" Editable="false"/>
-                    <PropertyColumn Property="p => p.SampleName" Title="Sample Name"/>
+                    <PropertyColumn Property="p => p.FullName" Title="Full Name" Editable="false" />
                     <PropertyColumn Property="p => p.IsActive" Title="Is Active" Editable="false" CellClass="d-flex align-center justify-center">
                         <CellTemplate>
                             @if (context.Item.IsActive == true)
@@ -58,12 +55,12 @@ else
                             <MudStack Row="true">
                                 @if (!_isReadOnly)
                                 {
-                                    <MudTooltip Text="Edit SampleLong">
-                                        <MudIconButton Icon="@Icons.Material.Outlined.Edit" OnClick="@(async e => await StartNormalEditOfRecord(context.Item))" Size="@Size.Small" Variant="Variant.Filled" Color="Color.Primary"/>
+                                    <MudTooltip Text="Edit SampleInt">
+                                        <MudIconButton Icon="@Icons.Material.Outlined.Edit" OnClick="@(async e => await StartNormalEditOfRecord(context.Item))" Size="@Size.Small" Variant="Variant.Filled" Color="Color.Primary" />
                                     </MudTooltip>
                                 }
                                 <MudTooltip Text="@IsActiveIconButtonText(context.Item)">
-                                <MudIconButton Icon="@Icons.Material.Outlined.Deselect" OnClick="async () => await OnChangeActivationClick(context.Item)" Size="@Size.Small" Variant="Variant.Filled" Color=@ListMode_ActivationButtonColor(@context.Item)>Activate</MudIconButton>
+                                    <MudIconButton Icon="@Icons.Material.Outlined.Deselect" OnClick="async () => await OnChangeActivationClick(context.Item)" Size="@Size.Small" Variant="Variant.Filled" Color=@ListMode_ActivationButtonColor(@context.Item)>Activate</MudIconButton>
                                 </MudTooltip>
                             </MudStack>
                         </CellTemplate>
@@ -80,14 +77,17 @@ else
         <MudCard>
             <MudForm Model="@model" @ref="@form" Validation="@(_validator.ValidateValue)" ValidationDelay="0">
                 <MudCardContent>
-                    <MudTextField @bind-Value="model.SampleName"
-                                  For="@(() => model.SampleName)"
-                                  Immediate="true"
-                                  Label="Name"/>
-                    <MudSpacer></MudSpacer>
+                    <!--  Name  -->
+                    <MudTextField @bind-Value="model.Name"
+                                  For="@(() => model.Name)"
+                                  Label="Name"
+                                  Class="mt-3"/>
+
+                    <!--  Is Active  -->
                     <MudCheckBox @bind-Value="model.IsActive"
                                  For="@(() => model.IsActive)"
-                                 Label="Is Active"/>
+                                 Label="Is Active"
+                                 Class="mt-3"/>
 
                 </MudCardContent>
             </MudForm>

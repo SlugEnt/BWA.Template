@@ -86,6 +86,18 @@ The database connection string file is currently hard coded in the Database-->De
     * Dotnet ef database update
     
 
+## Adding New Pages
+Whenever you add a new page there are a number of places you will need to make changes to get it to work properly.  The following is a list of places you will need to update:
+* [Client] Add the page to the Pages folder
+* [Client] That page needs to be added to the NavMenu <AfterLogin / Startup>.razor file
+* The page will need to inherit from one of the base page classes.  Typically if the page is based upon one of the abstract Int, Guid, Long, String, ULID entities, then you will want to inherit from the AbstractE2ComponentInt, AbstractE2ComponentGuid, etc.  If it is not based on one of those, then you can inherit from the AbstractE2Component base object or the AbstractCrudComponent base object.
+* [Server Project]  You will need to add the page to the ProgramCustom.cs file in the AddBlazorComponents method.
+* [Server Project]  You will need to add the controller in the ProgramCustom.cs file in the SetupOData method.]
+* [Server Project]  You will need to add the page to the ProgramCustom.cs file in the AddServices method.]
+* [Client Project] You will need to add the page to the ProgramCustom.cs file in the AddServices section.
+* [Optionally] You may need to add a FluentValidator in the Entities project.
+
+
 
 
 

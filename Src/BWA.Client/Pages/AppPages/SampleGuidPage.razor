@@ -1,0 +1,109 @@
+﻿@page "/SampleGuidPage/{mode}"
+@page "/SampleGuidPage/{mode}/{recordId}"
+
+@namespace SlugEnt.BWA.Client.Pages
+@rendermode InteractiveWebAssembly
+
+
+@inherits AbstractE2ComponentGuid<SampleGuid>
+
+@using Severity = FluentValidation.Severity
+
+
+
+
+
+
+
+<h1>@_pageTitle</h1>
+<hr />
+
+
+@*  Page Level Critical Error Display *@
+@if (_errVisible)
+{
+    <MudAlert Severity="MudBlazor.Severity.Error">@_errMsg</MudAlert>
+}
+
+else
+{
+    @*  List Mode View*@
+    @if (_isListMode)
+    {
+        <MudButton OnClick="@AddEntity" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Color="Color.Info" Size="Size.Small">Add</MudButton>
+
+
+        <MudCard>
+            <MudDataGrid Items="@_entities" T="SampleGuid" Striped="true" Bordered="true"
+                         StartedEditingItem="@StartedQuickEditing"
+                         CanceledEditingItem="@CancelledQuickEditing"
+                         CommittedItemChanges="@CommitQuickEditingSave">
+                <Columns>
+                    <PropertyColumn Property="p => p.FullName" Title="Full Name" Editable="false" />
+                    <PropertyColumn Property="p => p.SampleName" Title="Sample Name" />
+                    <PropertyColumn Property="p => p.IsActive" Title="Is Active" Editable="false" CellClass="d-flex align-center justify-center">
+                        <CellTemplate>
+                            @if (context.Item.IsActive == true)
+                                                                             {
+                                                                                 <MudChip Color="Color.Success" Size="Size.Small">Active</MudChip>
+                                                                             }
+                                                                             else
+                                                                             {
+                                                                                 <MudChip Color="Color.Error" Size="Size.Small">De-Activated</MudChip>
+                                                                             }
+                        </CellTemplate>
+                    </PropertyColumn>
+                    <TemplateColumn Title="Actions">
+                        <CellTemplate>
+                            <MudStack Row="true">
+                                @if (!_isReadOnly)
+                                                                                           {
+                                                                                               <MudTooltip Text="Edit SampleGuid">
+                                        <MudIconButton Icon="@Icons.Material.Outlined.Edit" OnClick="@(async e => await StartNormalEditOfRecord(context.Item))" Size="@Size.Small" Variant="Variant.Filled" Color="Color.Primary" />
+                                    </MudTooltip>
+                                                                                           }
+                                <MudTooltip Text="@IsActiveIconButtonText(context.Item)">
+                                    <MudIconButton Icon="@Icons.Material.Outlined.Deselect" OnClick="async () => await OnChangeActivationClick(context.Item)" Size="@Size.Small" Variant="Variant.Filled" Color=@ListMode_ActivationButtonColor(@context.Item)>Activate</MudIconButton>
+                                </MudTooltip>
+                            </MudStack>
+                        </CellTemplate>
+                    </TemplateColumn>
+                </Columns>
+            </MudDataGrid>
+        </MudCard>
+    }
+
+
+    @*  Create / Edit Mode Form *@
+    @if (_isCreateMode || _isEditMode)
+    {
+        <MudCard>
+            <MudForm Model="@model" @ref="@form" Validation="@(_validator.ValidateValue)" ValidationDelay="0">
+                <MudCardContent>
+                    <!-- Name -->
+                    <MudTextField @bind-Value="model.SampleName"
+                                  For="@(() => model.SampleName)"
+                                  Label="Name"
+                                  Class="mt-3"/>
+                    
+                    <!--  Is Active  -->
+                    <MudCheckBox @bind-Value="model.IsActive"
+                                 For="@(() => model.IsActive)"
+                                 Label="Is Active"
+                                 Class="mt-3"/>
+
+                </MudCardContent>
+            </MudForm>
+            <MudCardActions>
+                @if (_isCreateMode)
+                {
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="@(async () => await CreateEntity())">Save @_entitySingluarName</MudButton>
+                }
+                else
+                {
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="@(async () => await UpdateEntity())">Update @_entitySingluarName</MudButton>
+                }
+            </MudCardActions>
+        </MudCard>
+    }
+}

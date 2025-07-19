@@ -4,7 +4,7 @@
         AdditionalAssemblies="new[] {typeof(_Imports).Assembly,
         typeof(TestA).Assembly}">
     <Found Context="routeData">
-        <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(InitialLayout)">
+        <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(LayoutStartup)">
             <NotAuthorized>
                 <RedirectToLogin />
             </NotAuthorized>

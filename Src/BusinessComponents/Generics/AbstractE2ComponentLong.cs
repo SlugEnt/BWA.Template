@@ -14,7 +14,12 @@ public abstract class AbstractE2ComponentLong<TEntityLong> : AbstractE2Component
 {
     protected long _currentRecordId = 0; // The Id of the record to be edited, deleted, or viewed.  This is used to retrieve the record from the database.
 
-    [Inject] protected IEntityRepositoryE2Long<TEntityLong>? _entityRepository { get { return (IEntityRepositoryE2Long<TEntityLong>)_entityLookupService;} set { _entityLookupService = value; } }
+    [Inject]
+    protected IEntityRepositoryE2Long<TEntityLong>? _entityRepository
+    {
+        get { return (IEntityRepositoryE2Long<TEntityLong>)_entityLookupService; }
+        set { _entityLookupService = value; }
+    }
 
 
     /// <summary>

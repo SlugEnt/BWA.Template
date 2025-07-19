@@ -14,7 +14,16 @@ public abstract class AbstractE2ComponentGuid<TEntityGuid> : AbstractE2Component
 {
     protected Guid _currentRecordId = Guid.Empty; // The Id of the record to be edited, deleted, or viewed.  This is used to retrieve the record from the database.
 
-    [Inject] protected IEntityRepositoryE2Guid<TEntityGuid>? _entityRepository { get { return (IEntityRepositoryE2Guid<TEntityGuid>)_entityLookupService;} set { _entityLookupService = value; } }
+    [Inject] protected IEntityRepositoryE2Guid<TEntityGuid>? _entityRepository 
+    {
+        get
+        {
+            return (IEntityRepositoryE2Guid<TEntityGuid>)_entityLookupService;
+        }
+        set
+        {
+            _entityLookupService = value;
+        } }
 
 
     /// <summary>

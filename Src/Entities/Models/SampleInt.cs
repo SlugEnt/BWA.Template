@@ -1,12 +1,18 @@
 ﻿using SlugEnt.BWA.Entities;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace SlugEnt.HR.NextGen.Entities.Models;
 
 /// <summary>
 /// This is a sample Lookup Entity.  A Lookup Entity is one that typically is Read from and rarely updated.
 /// </summary>
-public class SampleInt : AbstractEntityLookups, IEntity 
+public class SampleInt : AbstractEntityInt, IEntity 
 {
+    [Required(ErrorMessage = "Name is required.")]
+    [MaxLength(Constants.NAME_LONG_LENGTH)]
+    [Column(Order = 20)]
+    public string Name { get; set; }
 
     /// <summary>
     /// The full name of the entity.    This is required.  It can be overridden in this derived class if needed.
